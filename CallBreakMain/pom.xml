@@ -23,31 +23,18 @@
             <version>1.0</version>
         </dependency>
     </dependencies>
-    
-<!--    <repositories>
+<!--    
+    <repositories>
         <repository>
             <id>
                 lib
             </id>
             <url>http://10.0.21.45:8080/Ace2Three-lib</url>
-                        <releases>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-                <checksumPolicy>warn</checksumPolicy>
-            </releases>
-            <snapshots>
-                <mirror>
-        <id>maven-default-http-blocker</id>
-        <mirrorOf>external:http:*</mirrorOf>
-        <name>Pseudo repository to mirror external repositories initially using HTTP.</name>
-        <url>http://0.0.0.0/</url>
-    </mirror>
-            </snapshots>
-            
         </repository>
         
     </repositories>
     
+-->    
     <build>
         <plugins>
             
@@ -69,6 +56,5 @@
             </plugin>
         </plugins>
         <finalName>CallBreakMain</finalName>
-    </build>-->
-    <name>CallBreakMain1</name>
+    </build>
 </project>
