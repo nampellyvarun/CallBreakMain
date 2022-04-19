@@ -7,8 +7,15 @@ package com.project.callbreak.server.impl;
 
 
 import com.project.callbreak.nio.CBInitializer;
-import com.project.platform.server.impl.Server;
+import com.project.callbreak.nio.CBProtocolExecutor;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.HashedWheelTimerCust;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -37,6 +44,51 @@ public class CBServer extends Server{
         }
         return cbServer;
     }
+    
+    
+
+
+
+
+    public String serverResponse()throws Exception{
+        
+        
+//        ServerSocket ss=new ServerSocket(3335);
+//        Socket s=ss.accept();
+//        DataInputStream din=new DataInputStream(s.getInputStream());
+//
+//        DataOutputStream dout=new DataOutputStream(s.getOutputStream());
+//
+//        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+//
+//
+//        String str1="",str2="";
+//        while(!str1.equals("stop")){
+//        str1=din.readUTF();
+//        //ChannelHandlerContext ctx = new ChannelHandlerContext() {};
+//        //CBProtocolExecutor cbpe = new CBProtocolExecutor(str1,ctx);
+////        System.out.println("client 1 says: "+str1);
+//
+//        System.out.print("server wants to say: "); 
+//
+//        str2=br.readLine();
+//        dout.writeUTF(str2);
+//
+//        dout.flush();
+//
+//        }
+//        din.close();
+//
+//        s.close();
+//
+//        ss.close();
+        
+        
+        return null;
+    
+
+}
+
 
     @Override
     public void start(String args[]) {
@@ -52,6 +104,9 @@ public class CBServer extends Server{
             //System.out.println("lobby webscoket started- yellaiah2");
             HashedWheelTimerCust timer = new HashedWheelTimerCust();
             super.createListner(new CBInitializer(timer));
+            
+            ApplicationContext.getInstance().loadMapHandlers();
+            
             
 
         } catch (Exception ex) {
