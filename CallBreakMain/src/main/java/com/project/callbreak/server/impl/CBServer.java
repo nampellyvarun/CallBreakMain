@@ -51,42 +51,7 @@ public class CBServer extends Server{
 
 
     public String serverResponse()throws Exception{
-        
-        
-//        ServerSocket ss=new ServerSocket(3335);
-//        Socket s=ss.accept();
-//        DataInputStream din=new DataInputStream(s.getInputStream());
-//
-//        DataOutputStream dout=new DataOutputStream(s.getOutputStream());
-//
-//        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-//
-//
-//        String str1="",str2="";
-//        while(!str1.equals("stop")){
-//        str1=din.readUTF();
-//        //ChannelHandlerContext ctx = new ChannelHandlerContext() {};
-//        //CBProtocolExecutor cbpe = new CBProtocolExecutor(str1,ctx);
-////        System.out.println("client 1 says: "+str1);
-//
-//        System.out.print("server wants to say: "); 
-//
-//        str2=br.readLine();
-//        dout.writeUTF(str2);
-//
-//        dout.flush();
-//
-//        }
-//        din.close();
-//
-//        s.close();
-//
-//        ss.close();
-        
-        
-        return null;
-    
-
+        return null;    
 }
 
 
@@ -99,13 +64,15 @@ public class CBServer extends Server{
              */
             //System.out.println("lobby webscoket started- yellaiah1");
             this.initialize();
-            // System.out.println("lobby webscoket started- yellaiah11");
+            System.out.println("lobby webscoket started- yellaiah11");
+            AppContext.getInstance().loadMapHandlers();
+            System.out.println("Handler loaded"+AppContext.getInstance().getMapHandler().toString());
+            
             //starting the Lobbywebsocket server
             //System.out.println("lobby webscoket started- yellaiah2");
             HashedWheelTimerCust timer = new HashedWheelTimerCust();
             super.createListner(new CBInitializer(timer));
             
-            ApplicationContext.getInstance().loadMapHandlers();
             
             
 

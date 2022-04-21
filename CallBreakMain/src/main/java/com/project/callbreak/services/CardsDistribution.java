@@ -17,6 +17,16 @@ import java.util.Collections;
  */
 public class CardsDistribution {
     
+    private static CardsDistribution instance = null;
+    public static CardsDistribution getInstance() {
+        if (instance == null) {
+            synchronized (Object.class) {
+                instance = instance == null ? new CardsDistribution() : instance;
+            }
+        }
+        return instance;
+    }
+    
     public ArrayList<GamePlayer> alp = new ArrayList<>();
     
     public CreateCardsList CardsDistributionLogic(ArrayList<Card> cardsList){
@@ -191,34 +201,20 @@ public class CardsDistribution {
         
     }
     
-    public String PlayerListCards(ArrayList<Card> cardsList){
-        String s= "";
-        GenerateCards gCards = new GenerateCards();
-            
-        CardsDistribution cdObj = new CardsDistribution();
-            
-            
-        CreateCardsList ccl = cdObj.CardsDistributionLogic(gCards.cardsList);
+    public void PlayerListCards(ArrayList<Card> cardsList){
+//        String s= "";
+        
+        CreateCardsList ccl = CardsDistribution.getInstance().CardsDistributionLogic(cardsList);
 
-        GamePlayer p1 = new GamePlayer("player1",ccl.getPlayer1List());
-        GamePlayer p2 = new GamePlayer("player2",ccl.getPlayer2List());
-        GamePlayer p3 = new GamePlayer("player3",ccl.getPlayer3List());
-        GamePlayer p4 = new GamePlayer("player4",ccl.getPlayer4List());
+        GamePlayer p1 = new GamePlayer("",ccl.getPlayer1List());
+        GamePlayer p2 = new GamePlayer("",ccl.getPlayer2List());
+        GamePlayer p3 = new GamePlayer("",ccl.getPlayer3List());
+        GamePlayer p4 = new GamePlayer("",ccl.getPlayer4List());
 
         alp.add(p1);
         alp.add(p2);
         alp.add(p3);
         alp.add(p4);
-        
-        s+=p1.toString();
-        s=s+";";
-        s+=p2.toString();
-        s=s+";";
-        s+=p3.toString();
-        s=s+";";
-        s+=p4.toString();
-        System.out.println(s);
-        return s;
     }
 }
 

@@ -47,5 +47,11 @@ public class Player {
     public void setNci(NioConnectionInt nci) {
         this.nci = nci;
     }
+
+    @Override
+    public String toString() {
+        return "Player{" + "userId=" + userId + ", status=" + status + ", nci=" + nci + '}';
+    }
+    
     
 }
