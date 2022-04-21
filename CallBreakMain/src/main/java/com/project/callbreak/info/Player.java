@@ -13,12 +13,12 @@ import com.project.callbreak.nio.api.NioConnectionInt;
 public class Player {
     private String userId;
     private String status;
-    private NioConnectionInt nci;
+    private NioConnectionInt nioConnectionInt;
 
-    public Player(String userId, String status, NioConnectionInt nci) {
+    public Player(String userId, String status, NioConnectionInt nioConnectionInt) {
         this.userId = userId;
         this.status = status;
-        this.nci = nci;
+        this.nioConnectionInt = nioConnectionInt;
     }
 
     public Player() {
@@ -41,16 +41,16 @@ public class Player {
     }
 
     public NioConnectionInt getNci() {
-        return nci;
+        return nioConnectionInt;
     }
 
-    public void setNci(NioConnectionInt nci) {
-        this.nci = nci;
+    public void setNci(NioConnectionInt nioConnectionInt) {
+        this.nioConnectionInt = nioConnectionInt;
     }
 
     @Override
     public String toString() {
-        return "Player{" + "userId=" + userId + ", status=" + status + ", nci=" + nci + '}';
+        return "Player{" + "userId=" + userId + ", status=" + status + ", nioConnectionInt=" + nioConnectionInt + '}';
     }
     
     

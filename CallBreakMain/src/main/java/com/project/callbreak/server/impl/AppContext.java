@@ -7,8 +7,10 @@ package com.project.callbreak.server.impl;
 import com.project.callbreak.handler.BidHandler;
 import com.project.callbreak.handler.LoginHandler;
 import com.project.callbreak.info.Player;
+import com.project.callbreak.info.Table;
 import java.util.HashMap;
 import com.project.callbreak.nio.HandlerInterface;
+import java.util.LinkedHashMap;
 /**
  *
  * @author srivarun
@@ -25,6 +27,23 @@ public class AppContext {
     }
     
     
+    LinkedHashMap<String,Table> tableCollection = new LinkedHashMap<>();
+
+    public LinkedHashMap<String, Table> getTableCollection() {
+        return tableCollection;
+    }
+
+    public void setTableCollection(LinkedHashMap<String, Table> tableCollection) {
+        this.tableCollection = tableCollection;
+    }
+    
+    public Table getTableByTableId(String tableId){
+        return tableCollection.get(tableId);
+    }
+    
+    public void addTable(String tableId,Table table){
+        tableCollection.put(tableId,table);
+    }
     
     
     HashMap<String,Player> playerCollection = new HashMap<>();

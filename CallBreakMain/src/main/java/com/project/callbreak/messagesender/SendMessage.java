@@ -21,7 +21,7 @@ public class SendMessage {
         }
         return instance;
     }
-    public void send(Player p,String s){
-         p.getNci().sendMessage(s);
+    public void send(Player player,String string){
+         player.getNci().sendMessage(string);
     }
 }

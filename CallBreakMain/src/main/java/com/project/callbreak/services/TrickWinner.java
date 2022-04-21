@@ -31,7 +31,7 @@ public class TrickWinner {
                     twc=c;
                 }
             }
-            int trickWinner = twc.getPlayerId();
+            String trickWinnerId = twc.getPlayerId();
             System.out.println(twc);
             String s="";
             s+=twc.getPlayerId();

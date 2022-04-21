@@ -8,15 +8,7 @@ import com.project.callbreak.info.GenerateCards;
 import com.project.callbreak.info.Card;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  *
@@ -42,7 +34,7 @@ public class CutForSeat {
 //Generating 4 random cards and adding it to the HashSet
         for(int i=1;i<=4;i++){
             Card c = cardsList.get(cnl.remove(0));
-            c.setPlayerId(i);
+            c.setPlayerId(Integer.toString(i));
             alCFSCards.add(c);
         }
               

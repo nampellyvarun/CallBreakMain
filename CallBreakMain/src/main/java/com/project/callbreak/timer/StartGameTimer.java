@@ -22,23 +22,24 @@ public class StartGameTimer extends Thread{
                 
                 while (true) {
                     try {
-                        System.out.println("timer countdown: " + counter);
+                        System.out.println("timer countdown: " + ++counter);
                         if (counter == 5) {
-                            System.out.println("time has reached 5 now will start game ");
-                            timer.cancel();//end the timer
+                            System.out.println("time has reached 5 now the game starts");
+                            //timer.cancel();//end the timer
                             break;//end this loop
                         }
                         Thread.sleep(1000);
+                        
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
-                    }
-                    
+                    }    
                 }
        
                 Table table = new Table();
-                
+                System.out.println("Waited for 5 sec successfully");
                 CFSProtocol cfsp = new CFSProtocol();
                 cfsp.cfsProtocol();
+                
                 
             }
  }

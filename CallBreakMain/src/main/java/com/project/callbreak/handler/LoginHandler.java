@@ -5,7 +5,7 @@
 package com.project.callbreak.handler;
 
 import com.project.callbreak.gameencoders.GameEncoder;
-import com.project.callbreak.info.Player;
+import com.project.callbreak.info.*;
 import com.project.callbreak.messagesender.SendMessage;
 import com.project.callbreak.nio.HandlerInterface;
 import com.project.callbreak.server.impl.AppContext;
@@ -15,8 +15,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -35,27 +37,26 @@ public class LoginHandler implements HandlerInterface{
         }
         return instance;
     }
-
-    public int userCount = 0;
     
+    public int userCount = 0;
     @Override
     public String handle(String string,Player player) {
         System.out.println("Login handler parameters "+string+" "+player.toString());
         string = string.trim();
-    
-        StringTokenizer st1 = new StringTokenizer(string,",");
-        String userID = st1.nextToken();
-        String pwd = st1.nextToken();
-        FileReader fr = null;
+        
+        StringTokenizer stringTokenizer = new StringTokenizer(string,",");
+        String userID = stringTokenizer.nextToken();
+        String pwd = stringTokenizer.nextToken();
+        FileReader fileReader = null;
         int x = 0;
-        String s="";
+        String stringStatus="";
         try {
-            File f = new File("Details.txt");
-            fr = new FileReader(f);
-            BufferedReader br=new BufferedReader(fr);
+            File file = new File("Details.txt");
+            fileReader = new FileReader(file);
+            BufferedReader bufferedReader=new BufferedReader(fileReader);
             String line;
             try {
-                while((line=br.readLine())!=null)
+                while((line=bufferedReader.readLine())!=null)
                 {
                     StringTokenizer st2 = new StringTokenizer(line,",");
                     String userid = st2.nextToken();
@@ -65,12 +66,38 @@ public class LoginHandler implements HandlerInterface{
                     System.out.println("From client - Userid: "+userID+" password: "+pwd);
                     if(userID.equals(userid)){
                         if(pwd.equals(pass)){
-                            x=1;
-                            userCount+=1;
-                            player.setStatus("100");
-                            player.setUserId(userID);
-                            s = GameEncoder.getInstance().buildLoginAck("100");
-                            break;
+                            if(AppContext.getInstance().getTableCollection().isEmpty()){
+                                LinkedHashMap<String,Table> tableCollection = new LinkedHashMap<>();
+                                AppContext.getInstance().setTableCollection(tableCollection);
+                                Table table = new Table();
+                                table.setTableId();
+                                String tableId = table.getTableId();
+                                x=1;
+                                userCount+=1;
+                                player.setStatus("100");
+                                player.setUserId(userID);
+                                stringStatus = GameEncoder.getInstance().buildLoginAck("100");
+                                
+                                GamePlayer gamePlayer = new GamePlayer();
+
+                                table.addChair(gamePlayer);
+                                if(table.getChairs().size()!=4){
+                                    ArrayList<Chair> alChair = table.getChairs();
+                                    AppContext.getInstance().addTable(tableId, table);
+                                }
+                                
+                                break;
+                            }
+                            else{
+                                
+                                LinkedHashMap<String,Table> tableCollection = AppContext.getInstance().getTableCollection();
+                                Table table = tableCollection.get(tableCollection.size()-1);
+                                if(table.getChairs().size()==4){
+                                    ArrayList<Chair> alChair = table.getChairs();
+                                    AppContext.getInstance().addTable(tableId, table);
+                                }
+                                
+                            }
                         }
                     }  
                 }
@@ -82,7 +109,7 @@ public class LoginHandler implements HandlerInterface{
             System.out.println(ex);
         } finally {
             try {
-                fr.close();
+                fileReader.close();
             } catch (IOException ex) {
                 System.out.println(ex);
             }
@@ -91,34 +118,37 @@ public class LoginHandler implements HandlerInterface{
         if(x==1){
             System.out.println("Valid");
             player.setStatus("100");
-            s = GameEncoder.getInstance().buildLoginAck("100");
+            stringStatus = GameEncoder.getInstance().buildLoginAck("100");
             player.setUserId(userID);
-            System.out.println("Ak status: "+s);
+            System.out.println("Ak status: "+stringStatus);
         }
         else{
             System.out.println("Invalid");
             player.setStatus("111");
-            s = GameEncoder.getInstance().buildLoginAck("111");
-            System.out.println("Ak status: "+s);
+            stringStatus = GameEncoder.getInstance().buildLoginAck("111");
+            System.out.println("Ak status: "+stringStatus);
             }
         
         try {
-            SendMessage.getInstance().send(player, s);
+            SendMessage.getInstance().send(player, stringStatus);
         } catch (Exception e) {
             e.printStackTrace();
         }
         
-        SendMessage.getInstance().send(player, s);
+        SendMessage.getInstance().send(player, stringStatus);
+        
+        
         if(userCount==4){
-            StartGameTimer sgt = new StartGameTimer();
-            String s1 = "sTime#5";
+            StartGameTimer startGameTimer = new StartGameTimer();
+            String stringStart = "sTime#5";
             HashMap<String,Player> hm=AppContext.getInstance().getPlayerCollection();
             Iterator hmIterator = hm.entrySet().iterator();
             while (hmIterator.hasNext()) {
                 Map.Entry mapElement = (Map.Entry)hmIterator.next();
-                SendMessage.getInstance().send((Player) mapElement.getValue(), s1);
+                SendMessage.getInstance().send((Player) mapElement.getValue(), stringStart);
             }
-            sgt.start();
+            startGameTimer.start();
+            
         }
      return null;   
     }

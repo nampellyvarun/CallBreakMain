@@ -18,6 +18,10 @@ public class GamePlayer {
     private float roundScore;
     private float totalScore;
     
+    
+    public GamePlayer(){
+        
+    }
 
     public GamePlayer(String playerId, ArrayList<Card> playerCards, int tricksWon, int bid, float roundScore,float totalScore) {
         this.playerId = playerId;

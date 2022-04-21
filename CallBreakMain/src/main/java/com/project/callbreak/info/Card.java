@@ -14,7 +14,7 @@ public class Card implements Comparable<Card>{
     private int cardNumber;
     private char suit;
     private Boolean isFaceCard;
-    int playerId;
+    private String playerId;
     
 
 
@@ -22,14 +22,14 @@ public class Card implements Comparable<Card>{
         this.cardNumber = cardNumber;
         this.suit = suit;
         this.isFaceCard = isFaceCard;
-        this.playerId=0;
+        this.playerId=null;
     }
 
-    public int getPlayerId() {
+    public String getPlayerId() {
         return playerId;
     }
 
-    public void setPlayerId(int playerId) {
+    public void setPlayerId(String playerId) {
         this.playerId = playerId;
     }
     
@@ -58,14 +58,13 @@ public class Card implements Comparable<Card>{
         this.isFaceCard = isFaceCard;
     }
 
-
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 97 * hash + Objects.hashCode(this.cardNumber);
-        hash = 97 * hash + Objects.hashCode(this.suit);
-        hash = 97 * hash + Objects.hashCode(this.isFaceCard);
-        hash = 97 * hash + this.playerId;
+        hash = 29 * hash + this.cardNumber;
+        hash = 29 * hash + this.suit;
+        hash = 29 * hash + Objects.hashCode(this.isFaceCard);
+        hash = 29 * hash + Objects.hashCode(this.playerId);
         return hash;
     }
 
@@ -81,13 +80,13 @@ public class Card implements Comparable<Card>{
             return false;
         }
         final Card other = (Card) obj;
-        if (this.playerId != other.playerId) {
+        if (this.cardNumber != other.cardNumber) {
             return false;
         }
-        if (!Objects.equals(this.cardNumber, other.cardNumber)) {
+        if (this.suit != other.suit) {
             return false;
         }
-        if (!Objects.equals(this.suit, other.suit)) {
+        if (!Objects.equals(this.playerId, other.playerId)) {
             return false;
         }
         return Objects.equals(this.isFaceCard, other.isFaceCard);

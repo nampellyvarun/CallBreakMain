@@ -24,14 +24,16 @@ public class CFSProtocol {
     public void cfsProtocol(){
         GenerateCards gCards = new GenerateCards();
         CutForSeat cfs = new CutForSeat();
-        ArrayList<Card> seating=cfs.CutForSeatLogic(gCards.cardsList);
-        HashMap<String,Player> hm=AppContext.getInstance().getPlayerCollection();
+        ArrayList<Card> seating = cfs.CutForSeatLogic(gCards.cardList);
+        HashMap<String,Player> hm = AppContext.getInstance().getPlayerCollection();
         String s = GameEncoder.getInstance().buildCFS(hm, seating);
         Iterator hmIterator = hm.entrySet().iterator();
         while (hmIterator.hasNext()) {
             Map.Entry mapElement = (Map.Entry)hmIterator.next();
             SendMessage.getInstance().send((Player) mapElement.getValue(), s);
+            
         }
+        System.out.println("Cards: "+s);
         
     }
     

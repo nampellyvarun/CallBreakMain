@@ -36,32 +36,32 @@ public class GameEncoder {
     }
     public String buildPlayerCards(String userId, GamePlayer gPlayer){
         
-        StringBuilder s = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         Iterator<Card> iter = gPlayer.getPlayerCards().iterator();
         Card c = iter.next();
-        s.append(c.getSuit()).append(c.getCardNumber());
+        stringBuilder.append(c.getSuit()).append(c.getCardNumber());
         while(iter.hasNext()){
             
             c = iter.next();
-            s.append(",").append(c.getSuit()).append(c.getCardNumber());
+            stringBuilder.append(",").append(c.getSuit()).append(c.getCardNumber());
             
         }
-        s.append("$").append(userId).append(":").append(gPlayer.getBid()).append(":").append(gPlayer.getTricksWon()).append(":");
-        s.append(gPlayer.getRoundScore()).append(":").append(gPlayer.getTotalScore());
-        System.out.println("playerCards and details protocol to client: "+s);
-        return "cd#"+s.toString();
+        stringBuilder.append("$").append(userId).append(":").append(gPlayer.getBid()).append(":").append(gPlayer.getTricksWon()).append(":");
+        stringBuilder.append(gPlayer.getRoundScore()).append(":").append(gPlayer.getTotalScore());
+        System.out.println("playerCards and details protocol to client: "+stringBuilder);
+        return "cd#"+stringBuilder.toString();
     }
     
     public String buildCFS(HashMap<String,Player> hm,ArrayList<Card> seating){
-      StringBuilder sb = new StringBuilder();
+      StringBuilder stringBuilder = new StringBuilder();
       int i=0;
       Iterator hmIterator = hm.entrySet().iterator();
       while (hmIterator.hasNext()) {
             Map.Entry mapElement = (Map.Entry)hmIterator.next();
-            sb.append(mapElement.getKey()).append(":").append(seating.get(i)).append(i++);
+            stringBuilder.append(mapElement.getKey()).append(":").append(seating.get(i)).append(i++);
       }
-      System.out.println(sb.toString());
-      return sb.toString();
+      System.out.println(stringBuilder.toString());
+      return stringBuilder.toString();
    }
     
 }
