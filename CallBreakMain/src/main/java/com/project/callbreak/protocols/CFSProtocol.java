@@ -26,15 +26,16 @@ public class CFSProtocol {
         CutForSeat cfs = new CutForSeat();
         ArrayList<Card> seating = cfs.CutForSeatLogic(gCards.cardList);
         HashMap<String,Player> hm = AppContext.getInstance().getPlayerCollection();
-        String s = GameEncoder.getInstance().buildCFS(hm, seating);
-        Iterator hmIterator = hm.entrySet().iterator();
-        while (hmIterator.hasNext()) {
-            Map.Entry mapElement = (Map.Entry)hmIterator.next();
-            SendMessage.getInstance().send((Player) mapElement.getValue(), s);
-            
-        }
-        System.out.println("Cards: "+s);
+        String string = GameEncoder.getInstance().buildCFS(hm, seating);
         
+        for (Map.Entry mapElement : hm.entrySet()) {
+            SendMessage.getInstance().send(string,(Player) mapElement.getValue());
+        }
+        System.out.println("Cards: "+string);
+        System.out.println();
+        
+        CDProtocol cdp = new  CDProtocol();
+        cdp.cdProtocol(gCards.cardList);
     }
     
 }

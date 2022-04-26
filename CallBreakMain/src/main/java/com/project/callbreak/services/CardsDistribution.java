@@ -3,11 +3,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.project.callbreak.services;
+import com.project.callbreak.gameencoders.GameEncoder;
 import com.project.callbreak.info.CreateCardsList;
 import com.project.callbreak.info.Card;
+import com.project.callbreak.info.Chair;
 import com.project.callbreak.info.GamePlayer;
+import com.project.callbreak.info.Table;
+import com.project.callbreak.messagesender.SendMessage;
+import com.project.callbreak.server.impl.AppContext;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  *
@@ -24,22 +31,20 @@ public class CardsDistribution {
         }
         return instance;
     }
-    
-    public ArrayList<GamePlayer> alp = new ArrayList<>();
-    
-    public CreateCardsList CardsDistributionLogic(ArrayList<Card> cardsList){
+        
+    public CreateCardsList cardsDistributionLogic(ArrayList<Card> cardsList){
         
         
         ArrayList<Integer> allSpadeCards = new ArrayList<>();
 
-//Adding all Spade cards to allSpadeCards list
+        //Adding all Spade cards to allSpadeCards list
         for(int i=0;i<13;i++){
             allSpadeCards.add(i);
         }
         
         ArrayList<Integer> nonSpadeFaceCards = new ArrayList<>();
 
-//Adding all Non-Spade Face Cards to nonSpadeFaceCards list    
+        //Adding all Non-Spade Face Cards to nonSpadeFaceCards list    
         
         nonSpadeFaceCards.add(13);
         nonSpadeFaceCards.add(14);
@@ -59,7 +64,7 @@ public class CardsDistribution {
         
         ArrayList<Integer> nonSpadeNumberCards = new ArrayList<>();
         
-//Adding all Non-Spade Number Cards to nonSpadeNumberCards list                
+        //Adding all Non-Spade Number Cards to nonSpadeNumberCards list                
         for(int i=17;i<26;i++){
             nonSpadeNumberCards.add(i);
         }
@@ -78,14 +83,14 @@ public class CardsDistribution {
         ArrayList<Card> player4List = ccl.getPlayer4List();
         
 
-//Shuffling the arrays using Collections
+        //Shuffling the arrays using Collections
         Collections.shuffle(allSpadeCards);
         Collections.shuffle(nonSpadeNumberCards);
         Collections.shuffle(nonSpadeFaceCards);
         
         
 
-//Assigning a spade card to each player
+        //Assigning a spade card to each player
         Card c = cardsList.get(allSpadeCards.remove(0));
         c.setPlayerId("1");
         player1List.add(c);
@@ -101,7 +106,7 @@ public class CardsDistribution {
        
         
         
-//Assigning a face card to each player if player doesn't have a face card
+        //Assigning a face card to each player if player doesn't have a face card
         if(player1List.get(0).getIsFaceCard() == false){
             c = cardsList.get(nonSpadeFaceCards.remove(0));
             c.setPlayerId("1");
@@ -126,16 +131,16 @@ public class CardsDistribution {
         
         ArrayList<Integer> remainingCards = new ArrayList<>();
 
-//Adding remaining cards to remainingCards list        
+        //Adding remaining cards to remainingCards list        
         remainingCards.addAll(allSpadeCards);
         remainingCards.addAll(nonSpadeFaceCards);
         remainingCards.addAll(nonSpadeNumberCards);
 
-//Shuffling the remainingCardsList using Collections        
+        //Shuffling the remainingCardsList using Collections        
         Collections.shuffle(remainingCards);
        
 
-//Assigning player 1 with a total of 13 random cards        
+        //Assigning player 1 with a total of 13 random cards        
         while(!remainingCards.isEmpty()){
             if(player1List.size()!=13){
                 c = cardsList.get(remainingCards.remove(0));
@@ -147,7 +152,7 @@ public class CardsDistribution {
             }
         }
         
-//Assigning player 2 with a total of 13 random cards          
+        //Assigning player 2 with a total of 13 random cards          
         while(!remainingCards.isEmpty()){
             if(player2List.size()!=13){
                 c = cardsList.get(remainingCards.remove(0));
@@ -159,7 +164,7 @@ public class CardsDistribution {
             }
         }
 
-//Assigning player 3 with a total of 13 random cards  
+        //Assigning player 3 with a total of 13 random cards  
         while(!remainingCards.isEmpty()){
             if(player3List.size()!=13){
                 c = cardsList.get(remainingCards.remove(0));
@@ -171,7 +176,7 @@ public class CardsDistribution {
             }
         }
 
-//Assigning player 4 with a total of 13 random cards          
+        //Assigning player 4 with a total of 13 random cards          
         while(!remainingCards.isEmpty()){
             if(player4List.size()!=13){
                 c = cardsList.get(remainingCards.remove(0));
@@ -199,20 +204,31 @@ public class CardsDistribution {
         
     }
     
-    public void PlayerListCards(ArrayList<Card> cardsList){
-//        String s= "";
+    public void playerCardsList(ArrayList<Card> cardsList,int round){
+                
+        CreateCardsList ccl = CardsDistribution.getInstance().cardsDistributionLogic(cardsList);
+        LinkedHashMap<String,Table> tableCollection = AppContext.getInstance().getTableCollection();
+        Table table = new Table();
+        for (Map.Entry<String, Table> entry : tableCollection.entrySet()) {
+            table = entry.getValue(); 
+        }
         
-        CreateCardsList ccl = CardsDistribution.getInstance().CardsDistributionLogic(cardsList);
-
-        GamePlayer p1 = new GamePlayer("",ccl.getPlayer1List());
-        GamePlayer p2 = new GamePlayer("",ccl.getPlayer2List());
-        GamePlayer p3 = new GamePlayer("",ccl.getPlayer3List());
-        GamePlayer p4 = new GamePlayer("",ccl.getPlayer4List());
-
-        alp.add(p1);
-        alp.add(p2);
-        alp.add(p3);
-        alp.add(p4);
+        ArrayList<ArrayList<Card>> playerCardsList = ccl.playerList(ccl.getPlayer1List(), ccl.getPlayer2List(), ccl.getPlayer3List(), ccl.getPlayer4List());
+        int i=0;
+        
+        ArrayList<Chair> chairList = table.getChairs();
+        for(Chair chair : chairList){
+            GamePlayer gamePlayer = chair.getGamePlayer();
+            gamePlayer.setPlayerCards(playerCardsList.get(i));
+            chair.setGamePlayer(gamePlayer);
+            i++;
+            System.out.println("Chairs: "+chair.toString());
+            String string = GameEncoder.getInstance().buildPlayerCards(table.getTableId(),round,gamePlayer);
+            System.out.println("PlayerCards: "+string);
+            SendMessage.getInstance().send(string,chair.getPlayer());
+        }
+        System.out.println("Table is : "+ table.toString());
+        
     }
 }
 

@@ -32,9 +32,8 @@ public class GamePlayer {
         this.totalScore= totalScore;
     }
 
-    public GamePlayer(String playerId, ArrayList<Card> playerCards) {
+    public GamePlayer(String playerId) {
         this.playerId = playerId;
-        this.playerCards = playerCards;
     }
     
     
@@ -90,16 +89,11 @@ public class GamePlayer {
 
     @Override
     public String toString() {
-        String s="";
+        StringBuilder stringBuilder = new StringBuilder();
         for(Card c : playerCards){
-            s=s+c.getPlayerId();
-            s=s+":";
-            s=s+c.getCardNumber();
-            s=s+":";
-            s=s+c.getSuit();
-            s=s+".";
+            stringBuilder.append(c.getCardNumber()).append("@").append(c.getSuit()).append("|");
         }
-        return playerId+","+tricksWon+","+bid+","+roundScore+","+totalScore+","+s;
+        return playerId+","+tricksWon+","+bid+","+roundScore+","+totalScore+","+stringBuilder.toString()+"\n";
     }
 
 

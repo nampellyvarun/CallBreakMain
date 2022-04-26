@@ -31,7 +31,7 @@ public class CutForSeat {
 
 
         
-//Generating 4 random cards and adding it to the HashSet
+        //Generating 4 random cards and adding it to the HashSet
         for(int i=1;i<=4;i++){
             Card c = cardsList.get(cnl.remove(0));
             c.setPlayerId(Integer.toString(i));
@@ -76,6 +76,8 @@ public class CutForSeat {
         }
         
         System.out.println(alCFSCards);
+        System.out.println();
+        
         ArrayList<Card> alSeatArrangement = new ArrayList<>();
         alSeatArrangement.add(cDistributor);
         alSeatArrangement.add(cDiscarder);
@@ -106,35 +108,32 @@ public class CutForSeat {
         
 
 
-//Displaying the player who Distributes the cards and who Discards the cards
+        //Displaying the player who Distributes the cards and who Discards the cards
 
 //        System.out.println(alSeatArrangement);
-        String s = alSeatArrangement.get(0).toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append(alSeatArrangement.get(0).toString());
 //        System.out.println(alSeatArrangement.get(0));
         for(int i=1;i<4;i++){
-            s=s+";";
-            s=s+alSeatArrangement.get(i);
+            sb.append(";").append(alSeatArrangement.get(i));
         }
-        s=s+"#";
-        System.out.println(s);
+//        System.out.println(s);
 //        System.out.println(player+"-"+cDistributor);
 //        System.out.println(player2+"-"+cDiscarder);
-        System.out.println("Player "+cDistributor.getPlayerId()+" Distributes the cards and Player "+cDiscarder.getPlayerId()+" Discards the first Card");
+//        System.out.println("Player "+cDistributor.getPlayerId()+" Distributes the cards and Player "+cDiscarder.getPlayerId()+" Discards the first Card");
         return alSeatArrangement;
     }
     
     public String SeatArrangementCards(ArrayList<Card> cardsList){
         CutForSeat cfs = new CutForSeat();
-        String s="";
+        StringBuilder stringBuilder = new StringBuilder();
         ArrayList<Card> seatCards = cfs.CutForSeatLogic(cardsList);
         for(Card c: seatCards){
-            s+=c.toString();
-            s+=";";
-        }
-        StringBuffer sb= new StringBuffer(s);  
-        sb.deleteCharAt(sb.length()-1);  
-        System.out.println(sb);
-        return sb.toString();
+            stringBuilder.append(c.toString()).append(";");
+        } 
+        
+        stringBuilder.deleteCharAt(stringBuilder.length()-1);  
+        return stringBuilder.toString();
     }
     
 }

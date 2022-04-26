@@ -11,28 +11,26 @@ import com.project.callbreak.info.GamePlayer;
  * @author srivarun
  */
 public class Score {
-    public void ScoreCalculation(){
-        CardsDistribution cd = new CardsDistribution();
-        for(GamePlayer p : cd.alp){
-            int bid=p.getBid();
-            int tricksWon=p.getTricksWon();
-            float roundScore=p.getRoundScore();
-            float totalScore=p.getTotalScore();
-            if(bid == tricksWon){
-                roundScore = bid;
-            }
-            else if(bid < tricksWon){
-                roundScore = (float) ((float)bid + (0.1*(tricksWon-bid)));  
-            }
-            else{
-                roundScore = bid - tricksWon;
-            }
-            totalScore = totalScore+roundScore;
-            p.setRoundScore(roundScore);
-            p.setTotalScore(totalScore);
+    public void ScoreCalculation(GamePlayer gamePlayer){
+
+        int bid = gamePlayer.getBid();
+        int tricksWon = gamePlayer.getTricksWon();
+        float roundScore = gamePlayer.getRoundScore();
+        float totalScore = gamePlayer.getTotalScore();
+        
+        if(bid == tricksWon){
+            roundScore = (float)bid;
+        }
+        else if(bid < tricksWon){
+            roundScore = (float) ((float)bid + (0.1*(tricksWon-bid)));  
+        }
+        else{
+            roundScore = bid - tricksWon;
         }
         
-
+        totalScore = totalScore+roundScore;
+        gamePlayer.setRoundScore(roundScore);
+        gamePlayer.setTotalScore(totalScore);
     }
     
 }

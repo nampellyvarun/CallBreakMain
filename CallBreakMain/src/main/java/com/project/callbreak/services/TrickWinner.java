@@ -3,10 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.project.callbreak.services;
-
-import com.project.callbreak.info.CreateCardsList;
-import com.project.callbreak.info.Player;
-import com.project.callbreak.info.GenerateCards;
 import com.project.callbreak.info.Card;
 import java.util.ArrayList;
 
@@ -31,10 +27,7 @@ public class TrickWinner {
                     twc=c;
                 }
             }
-            String trickWinnerId = twc.getPlayerId();
-            System.out.println(twc);
-            String s="";
-            s+=twc.getPlayerId();
-            return s;
+            System.out.println("TrickWinnerCalculationMethod Called: "+twc);
+            return twc.getPlayerId();
         }
 }

@@ -8,6 +8,7 @@ import com.project.callbreak.gameencoders.GameEncoder;
 import com.project.callbreak.info.*;
 import com.project.callbreak.messagesender.SendMessage;
 import com.project.callbreak.nio.HandlerInterface;
+import com.project.callbreak.protocols.PositionProtocol;
 import com.project.callbreak.server.impl.AppContext;
 import com.project.callbreak.timer.StartGameTimer;
 import java.io.BufferedReader;
@@ -15,9 +16,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -64,41 +63,53 @@ public class LoginHandler implements HandlerInterface{
                     System.out.println("");
                     System.out.println("From server - Userid: "+userid+" password: "+pass);
                     System.out.println("From client - Userid: "+userID+" password: "+pwd);
-                    if(userID.equals(userid)){
-                        if(pwd.equals(pass)){
-                            if(AppContext.getInstance().getTableCollection().isEmpty()){
-                                LinkedHashMap<String,Table> tableCollection = new LinkedHashMap<>();
-                                AppContext.getInstance().setTableCollection(tableCollection);
-                                Table table = new Table();
-                                table.setTableId();
-                                String tableId = table.getTableId();
-                                x=1;
-                                userCount+=1;
-                                player.setStatus("100");
-                                player.setUserId(userID);
-                                stringStatus = GameEncoder.getInstance().buildLoginAck("100");
-                                
-                                GamePlayer gamePlayer = new GamePlayer();
-
+                    if(userID.equals(userid) && pwd.equals(pass)){
+                        x=1;
+                        userCount++;
+                        player.setStatus("100");
+                        stringStatus = GameEncoder.getInstance().buildLoginAck("100");
+                        if(AppContext.getInstance().getTableCollection().isEmpty()){
+                            LinkedHashMap<String,Table> tableCollection = new LinkedHashMap<>();
+                            AppContext.getInstance().setTableCollection(tableCollection);
+                            Table table = new Table();
+                            table.setTableId();
+                            String tableId=table.getTableId();
+                            GamePlayer gamePlayer = new GamePlayer(player.getUserId());
+                            table.addChair(gamePlayer);
+                            table.setStatus("registering");
+                            AppContext.getInstance().addTable(tableId, table);
+                            System.out.println("Table1: 1st player joined the game"+gamePlayer.getPlayerId());
+ 
+                        }
+                        else{
+                            LinkedHashMap<String,Table> tableCollection = AppContext.getInstance().getTableCollection();
+                            System.out.println("table Collection size : "+ (tableCollection.size()));
+                            Table table = new Table();
+                            for (Map.Entry<String, Table> entry : tableCollection.entrySet()) {
+                                table  = entry.getValue();      
+                            }                                
+                            if(table.getStatus().equals("registering")){
+                                GamePlayer gamePlayer = new GamePlayer(player.getUserId());
+                                System.out.println("GamePlayerid :"+gamePlayer.getPlayerId());
                                 table.addChair(gamePlayer);
-                                if(table.getChairs().size()!=4){
-                                    ArrayList<Chair> alChair = table.getChairs();
-                                    AppContext.getInstance().addTable(tableId, table);
+                                System.out.println("Table1: other players joining the game"+gamePlayer.getPlayerId());
+                                if(table.getChairs().size()==4){
+                                    System.out.println("Table ready to start");
+                                    
+                                    table.setStatus("full");
                                 }
-                                
-                                break;
                             }
                             else{
-                                
-                                LinkedHashMap<String,Table> tableCollection = AppContext.getInstance().getTableCollection();
-                                Table table = tableCollection.get(tableCollection.size()-1);
-                                if(table.getChairs().size()==4){
-                                    ArrayList<Chair> alChair = table.getChairs();
-                                    AppContext.getInstance().addTable(tableId, table);
-                                }
-                                
+                                Table table1 = new Table();
+                                table1.setTableId();
+                                String tableId = table1.getTableId();
+                                GamePlayer gamePlayer = new GamePlayer(player.getUserId());
+                                System.out.println(gamePlayer.getPlayerId());
+                                table1.addChair(gamePlayer);
+                                AppContext.getInstance().addTable(tableId, table1);
                             }
-                        }
+                        }    
+                        break;            
                     }  
                 }
             } catch (IOException ex) {
@@ -121,6 +132,14 @@ public class LoginHandler implements HandlerInterface{
             stringStatus = GameEncoder.getInstance().buildLoginAck("100");
             player.setUserId(userID);
             System.out.println("Ak status: "+stringStatus);
+            LinkedHashMap<String,Table> tableCollection = AppContext.getInstance().getTableCollection();
+            Table table = new Table();
+            for (Map.Entry<String, Table> entry : tableCollection.entrySet()) {
+                table  = entry.getValue();      
+            } 
+            PositionProtocol positionProtocol = new PositionProtocol();
+            positionProtocol.playerPositions(table);
+            
         }
         else{
             System.out.println("Invalid");
@@ -130,27 +149,25 @@ public class LoginHandler implements HandlerInterface{
             }
         
         try {
-            SendMessage.getInstance().send(player, stringStatus);
+            SendMessage.getInstance().send(stringStatus,player);
         } catch (Exception e) {
             e.printStackTrace();
         }
         
-        SendMessage.getInstance().send(player, stringStatus);
+        SendMessage.getInstance().send(stringStatus,player);
         
         
-        if(userCount==4){
+        if(userCount%4==0){
             StartGameTimer startGameTimer = new StartGameTimer();
             String stringStart = "sTime#5";
-            HashMap<String,Player> hm=AppContext.getInstance().getPlayerCollection();
-            Iterator hmIterator = hm.entrySet().iterator();
-            while (hmIterator.hasNext()) {
-                Map.Entry mapElement = (Map.Entry)hmIterator.next();
-                SendMessage.getInstance().send((Player) mapElement.getValue(), stringStart);
+            HashMap<String,Player> playerCollection = AppContext.getInstance().getPlayerCollection();
+            for (Map.Entry mapElement : playerCollection.entrySet()) {
+                SendMessage.getInstance().send(stringStart,(Player) mapElement.getValue());
             }
             startGameTimer.start();
             
         }
-     return null;   
+        return null;   
     }
 
    

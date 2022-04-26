@@ -17,12 +17,16 @@ public class Card implements Comparable<Card>{
     private String playerId;
     
 
-
+    public Card(){}
     public Card(int cardNumber, char suit, Boolean isFaceCard) {
         this.cardNumber = cardNumber;
         this.suit = suit;
         this.isFaceCard = isFaceCard;
-        this.playerId=null;
+    }
+    public Card(String playerId, char suit ,int cardNumber) {
+        this.playerId = playerId;
+        this.cardNumber = cardNumber;
+        this.suit = suit;
     }
 
     public String getPlayerId() {

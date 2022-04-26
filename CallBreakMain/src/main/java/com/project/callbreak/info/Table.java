@@ -9,13 +9,14 @@ package com.project.callbreak.info;
  * @author srivarun
  */
 
+import com.project.callbreak.server.impl.AppContext;
 import java.util.ArrayList;
 import java.util.Random;
 
 
 public class Table {
     
-    private ArrayList<Chair> alChairs = new ArrayList<>();
+    private ArrayList<Chair> chairList = new ArrayList<>();
     private String tableId;
     private String status = null;
     
@@ -30,12 +31,15 @@ public class Table {
     public void addChair(GamePlayer gamePlayer)
     {
             Chair c = new Chair();
+            c.setChairId();
             c.setGamePlayer(gamePlayer);
-            alChairs.add(c);
+            Player player = AppContext.getInstance().getPlayerByUserId(gamePlayer.getPlayerId());
+            c.setPlayer(player);
+            chairList.add(c);
     }
     
     public ArrayList<Chair> getChairs(){
-        return alChairs;
+        return chairList;
     }
 
     public String getTableId() {
@@ -55,4 +59,10 @@ public class Table {
             }
             this.tableId = sb.toString();
     }
+
+    @Override
+    public String toString() {
+        return "Table{" + "chairList=" + chairList + ", tableId=" + tableId + ", status=" + status + '}';
+    }
+    
 }

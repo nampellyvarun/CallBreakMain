@@ -4,6 +4,8 @@
  */
 package com.project.callbreak.info;
 
+import java.util.Random;
+
 /**
  *
  * @author srivarun
@@ -11,7 +13,7 @@ package com.project.callbreak.info;
 
 public class Chair {
     private GamePlayer gamePlayer;
-    private int chairId;
+    private String chairId;
     private Player player;
 
     public Chair(){
@@ -28,11 +30,21 @@ public class Chair {
     public void setGamePlayer(GamePlayer gamePlayer) {
         this.gamePlayer = gamePlayer;
     }
-    public int getId() {
+    public String getChairId() {
         return chairId;
     }
-    public void setId(int chairId) {
-        this.chairId = chairId;
+    public void setChairId() {
+            int leftLimit = 97; // letter 'a'
+            int rightLimit = 122; // letter 'z'
+            int targetStringLength = 5;
+            Random random = new Random();
+            StringBuilder sb = new StringBuilder(targetStringLength);
+            for (int i = 0; i < targetStringLength; i++) {
+                int randomLimitedInt = leftLimit + (int) 
+                  (random.nextFloat() * (rightLimit - leftLimit + 1));
+                sb.append((char) randomLimitedInt);
+            }
+            this.chairId = sb.toString();
     }
     public Player getPlayer() {
         return player;
@@ -40,5 +52,12 @@ public class Chair {
     public void setPlayer(Player player) {
         this.player = player;
     }
+
+    @Override
+    public String toString() {
+        return "Chair{" + "gamePlayer=" + gamePlayer + ", chairId=" + chairId + ", player=" + player + '}';
+    }
+    
+    
 
 }

@@ -20,6 +20,15 @@ public class CreateCardsList {
 
     public CreateCardsList() {
     }
+    
+    public ArrayList<ArrayList<Card>> playerList(ArrayList<Card> player1List,ArrayList<Card> player2List,ArrayList<Card> player3List,ArrayList<Card> player4List){
+        ArrayList<ArrayList<Card>> playerCardsList = new ArrayList<>();
+        playerCardsList.add(player1List);
+        playerCardsList.add(player2List);
+        playerCardsList.add(player3List);
+        playerCardsList.add(player4List);
+        return playerCardsList;
+    }
 
     public ArrayList<Card> getPlayer1List() {
         return player1List;

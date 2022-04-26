@@ -61,11 +61,6 @@ public class CBProtocolExecutor {
                 
             }
         }
-        if(buffer.startsWith("bid#")){
-                int bid = Integer.parseInt(details);
-                
-                
-        }
         System.out.println("attachUserId: "+(String) ctx.attr(NIOConstants.ATTACHMENT).get());
         Player player = AppContext.getInstance().getPlayerByUserId(attachUserId);
         

@@ -6,10 +6,13 @@ package com.project.callbreak.server.impl;
 
 import com.project.callbreak.handler.BidHandler;
 import com.project.callbreak.handler.LoginHandler;
+import com.project.callbreak.handler.TrickCardHandler;
+import com.project.callbreak.info.Card;
 import com.project.callbreak.info.Player;
 import com.project.callbreak.info.Table;
 import java.util.HashMap;
 import com.project.callbreak.nio.HandlerInterface;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 /**
  *
@@ -24,6 +27,19 @@ public class AppContext {
             }
         }
         return instance;
+    }
+    ArrayList<Card> trickList = new ArrayList<>();
+    
+    public void addCard(Card card){
+        trickList.add(card);
+    }
+
+    public ArrayList<Card> getTrickList() {
+        return trickList;
+    }
+
+    public void setTrickList(ArrayList<Card> trickList) {
+        this.trickList = trickList;
     }
     
     
@@ -82,10 +98,9 @@ public class AppContext {
         
         BidHandler bidHandler = new BidHandler();
         mapHandler.put("bid", bidHandler);
+        
+        TrickCardHandler trickCardHandler = new TrickCardHandler();
+        mapHandler.put("trickCard",trickCardHandler);
     }
-    
-    
-    
-    
-    
+
 }

@@ -15,7 +15,7 @@ import java.util.Timer;
 public class StartGameTimer extends Thread{
     static Timer timer;
     private int userCount;
-     int counter=0;          
+    int counter=0;          
     @Override
             public void run() {
                 
