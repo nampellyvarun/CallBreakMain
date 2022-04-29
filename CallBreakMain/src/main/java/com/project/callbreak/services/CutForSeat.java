@@ -17,11 +17,11 @@ import java.util.Iterator;
 public class CutForSeat {
 
 
-    public ArrayList<Card> CutForSeatLogic(ArrayList<Card> cardsList) {
+    public ArrayList<Card> CutForSeatLogic(GenerateCards gCards) {
         
         ArrayList<Card> alCFSCards = new ArrayList<>();
         
-        GenerateCards gCards = new GenerateCards();
+        //GenerateCards gCards = new GenerateCards();
         
         ArrayList<Integer> cnl = gCards.cardNumberList;
         
@@ -33,7 +33,7 @@ public class CutForSeat {
         
         //Generating 4 random cards and adding it to the HashSet
         for(int i=1;i<=4;i++){
-            Card c = cardsList.get(cnl.remove(0));
+            Card c = gCards.cardList.get(cnl.remove(0));
             c.setPlayerId(Integer.toString(i));
             alCFSCards.add(c);
         }
@@ -124,16 +124,16 @@ public class CutForSeat {
         return alSeatArrangement;
     }
     
-    public String SeatArrangementCards(ArrayList<Card> cardsList){
-        CutForSeat cfs = new CutForSeat();
-        StringBuilder stringBuilder = new StringBuilder();
-        ArrayList<Card> seatCards = cfs.CutForSeatLogic(cardsList);
-        for(Card c: seatCards){
-            stringBuilder.append(c.toString()).append(";");
-        } 
-        
-        stringBuilder.deleteCharAt(stringBuilder.length()-1);  
-        return stringBuilder.toString();
-    }
+//    public String SeatArrangementCards(ArrayList<Card> cardsList){
+//        CutForSeat cfs = new CutForSeat();
+//        StringBuilder stringBuilder = new StringBuilder();
+//        ArrayList<Card> seatCards = cfs.CutForSeatLogic(gCards);
+//        for(Card c: seatCards){
+//            stringBuilder.append(c.toString()).append(";");
+//        } 
+//        
+//        stringBuilder.deleteCharAt(stringBuilder.length()-1);  
+//        return stringBuilder.toString();
+//    }
     
 }

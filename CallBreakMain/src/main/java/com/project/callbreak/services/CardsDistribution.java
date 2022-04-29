@@ -207,6 +207,7 @@ public class CardsDistribution {
     public void playerCardsList(ArrayList<Card> cardsList,int round){
                 
         CreateCardsList ccl = CardsDistribution.getInstance().cardsDistributionLogic(cardsList);
+        
         LinkedHashMap<String,Table> tableCollection = AppContext.getInstance().getTableCollection();
         Table table = new Table();
         for (Map.Entry<String, Table> entry : tableCollection.entrySet()) {
@@ -222,12 +223,18 @@ public class CardsDistribution {
             gamePlayer.setPlayerCards(playerCardsList.get(i));
             chair.setGamePlayer(gamePlayer);
             i++;
-            System.out.println("Chairs: "+chair.toString());
+            //System.out.println("Chairs: "+chair.toString());
             String string = GameEncoder.getInstance().buildPlayerCards(table.getTableId(),round,gamePlayer);
             System.out.println("PlayerCards: "+string);
+//            String cfs = "cfs#1237:h:11:1,1234:h:3:2,1236:c:3:3,1235:d:5:4";
+            
+//            SendMessage.getInstance().send(cfs,chair.getPlayer());
+            
             SendMessage.getInstance().send(string,chair.getPlayer());
+            
+            
         }
-        System.out.println("Table is : "+ table.toString());
+        //System.out.println("Table is : "+ table.toString());
         
     }
 }

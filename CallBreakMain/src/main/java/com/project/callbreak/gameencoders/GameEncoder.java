@@ -7,13 +7,11 @@ package com.project.callbreak.gameencoders;
 import com.project.callbreak.info.Card;
 import com.project.callbreak.info.Chair;
 import com.project.callbreak.info.GamePlayer;
-import com.project.callbreak.info.Player;
 import com.project.callbreak.info.Table;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+
 
 
 
@@ -54,19 +52,18 @@ public class GameEncoder {
         }
         stringBuilder.append(",").append(gamePlayer.getPlayerId()).append(",").append(gamePlayer.getBid()).append(",").append(gamePlayer.getTricksWon()).append(",");
         stringBuilder.append(gamePlayer.getRoundScore()).append(",").append(gamePlayer.getTotalScore());
-        System.out.println("playerCards and details protocol to client: "+stringBuilder.toString());
+        //System.out.println("playerCards and details protocol to client: "+stringBuilder.toString());
         return "cd#"+stringBuilder.toString();
     }
     
-    public String buildCFS(HashMap<String,Player> playerCollection,ArrayList<Card> seating){
+    public String buildCFS(Table table,ArrayList<Card> seating){
         
         StringBuilder stringBuilder = new StringBuilder();
         int j=0;
         ArrayList<String> playerIdList = new ArrayList<>();
-        Iterator playerCollectionIterator = playerCollection.entrySet().iterator();
-        while (playerCollectionIterator.hasNext()) {
-              Map.Entry mapElement = (Map.Entry)playerCollectionIterator.next();
-              playerIdList.add((String)mapElement.getKey());
+        ArrayList<Chair> chairList = table.getChairs();
+        for (Chair chair : chairList) {
+            playerIdList.add(chair.getPlayer().getUserId());
         }
         Collections.shuffle(playerIdList);
         for(String playerId : playerIdList){
@@ -130,6 +127,10 @@ public class GameEncoder {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(tableId).append(",").append(card.getPlayerId()).append(",").append(card.getSuit()).append(",").append(card.getCardNumber());
         return "trickCard#"+stringBuilder.toString();
+    }
+    
+    public String buildBidAck(Table table,int bid){
+        return "bidA#"+bid;
     }
     
 }

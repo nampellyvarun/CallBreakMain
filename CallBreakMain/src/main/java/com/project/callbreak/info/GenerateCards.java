@@ -10,15 +10,6 @@ import java.util.ArrayList;
  * @author srivarun
  */
 public class GenerateCards {
-    private static GenerateCards instance = null;
-    public static GenerateCards getInstance() {
-        if (instance == null) {
-            synchronized (Object.class) {
-                instance = instance == null ? new GenerateCards() : instance;
-            }
-        }
-        return instance;
-    }
     
     
     

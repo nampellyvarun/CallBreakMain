@@ -5,30 +5,21 @@
 package com.project.callbreak.protocols;
 
 import com.project.callbreak.gameencoders.GameEncoder;
-import com.project.callbreak.info.Card;
 import com.project.callbreak.info.Chair;
-import com.project.callbreak.info.GenerateCards;
 import com.project.callbreak.info.Table;
 import com.project.callbreak.messagesender.SendMessage;
-import com.project.callbreak.services.CutForSeat;
 import java.util.ArrayList;
 
 /**
  *
- * @author abhirajd
+ * @author srivarun
  */
-public class CFSProtocol {
-    public void cfsProtocol(GenerateCards gCards,Table table){
-        CutForSeat cfs = new CutForSeat();
-        ArrayList<Card> seating = cfs.CutForSeatLogic(gCards);
-        String string = GameEncoder.getInstance().buildCFS(table, seating);
+public class BidAckProtocol {
+    public void bidAckProtocol(Table table,int bid){
+        String string = GameEncoder.getInstance().buildBidAck(table,bid);
         ArrayList<Chair> chairList = table.getChairs();
-        System.out.println("Cards: "+string);
-        System.out.println();
         for (Chair chair : chairList) {
             SendMessage.getInstance().send(string,chair.getPlayer());
-            System.out.println("Player: "+chair.getPlayer().toString());
         }
-    }
-    
+    }   
 }

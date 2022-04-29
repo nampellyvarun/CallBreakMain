@@ -4,22 +4,15 @@
  */
 package com.project.callbreak.timer;
 
-import com.project.callbreak.info.GenerateCards;
-import com.project.callbreak.info.Table;
-import com.project.callbreak.protocols.CDProtocol;
-import com.project.callbreak.protocols.CFSProtocol;
-import com.project.callbreak.server.impl.AppContext;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Timer;
 
 /**
  *
- * @author abhirajd
+ * @author srivarun
  */
-public class StartGameTimer extends Thread{
+public class ProtocolTimer extends Thread{
     static Timer timer;
-    //private int userCount;
+    private int userCount;
     int counter=0;          
     @Override
             public void run() {
@@ -29,7 +22,7 @@ public class StartGameTimer extends Thread{
                     try {
                         System.out.println("timer countdown: " + ++counter);
                         if (counter == 5) {
-                            System.out.println("time has reached 5 now the game starts");
+                            System.out.println("time has reached 5 sec");
                             //timer.cancel();//end the timer
                             break;//end this loop
                         }
@@ -39,6 +32,5 @@ public class StartGameTimer extends Thread{
                         ex.printStackTrace();
                     }    
                 }
- 
             }
- }
+}

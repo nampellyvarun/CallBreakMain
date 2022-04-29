@@ -8,8 +8,11 @@ import com.project.callbreak.gameencoders.GameEncoder;
 import com.project.callbreak.info.*;
 import com.project.callbreak.messagesender.SendMessage;
 import com.project.callbreak.nio.HandlerInterface;
+import com.project.callbreak.protocols.CDProtocol;
+import com.project.callbreak.protocols.CFSProtocol;
 import com.project.callbreak.protocols.PositionProtocol;
 import com.project.callbreak.server.impl.AppContext;
+import com.project.callbreak.timer.ProtocolTimer;
 import com.project.callbreak.timer.StartGameTimer;
 import java.io.BufferedReader;
 import java.io.File;
@@ -156,8 +159,20 @@ public class LoginHandler implements HandlerInterface{
         
         SendMessage.getInstance().send(stringStatus,player);
         
-        
-        if(userCount%4==0){
+        ProtocolTimer pt = new ProtocolTimer();
+//        String stringStart = "sTime#5";
+//        if(userCount%4==0){
+//            for(int j=0;j<5;j++){
+//                HashMap<String,Player> playerCollection = AppContext.getInstance().getPlayerCollection();
+//                for (Map.Entry mapElement : playerCollection.entrySet()) {
+//                    SendMessage.getInstance().send(stringStart+"-"+j,(Player) mapElement.getValue());
+//                }
+//                pt.start();
+//            }
+//        }
+
+
+        if(userCount%4==0 ){
             StartGameTimer startGameTimer = new StartGameTimer();
             String stringStart = "sTime#5";
             HashMap<String,Player> playerCollection = AppContext.getInstance().getPlayerCollection();
@@ -165,7 +180,20 @@ public class LoginHandler implements HandlerInterface{
                 SendMessage.getInstance().send(stringStart,(Player) mapElement.getValue());
             }
             startGameTimer.start();
+            System.out.println("Waited for 5 sec successfully");
             
+            
+            LinkedHashMap<String,Table> tableCollection = AppContext.getInstance().getTableCollection();
+            Table table = new Table();
+            for (Map.Entry<String, Table> entry : tableCollection.entrySet()) {
+                table  = entry.getValue();      
+            } 
+            
+            GenerateCards gCards = new GenerateCards();
+            CFSProtocol cfsp = new CFSProtocol();
+            cfsp.cfsProtocol(gCards,table);
+            CDProtocol cdp = new  CDProtocol();
+            cdp.cdProtocol(gCards.cardList);
         }
         return null;   
     }

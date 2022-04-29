@@ -6,6 +6,7 @@ package com.project.callbreak.protocols;
 
 import com.project.callbreak.info.Card;
 import com.project.callbreak.services.CardsDistribution;
+import com.project.callbreak.timer.ProtocolTimer;
 import java.util.ArrayList;
 
 /**
@@ -29,6 +30,5 @@ public class CDProtocol {
         }
         CardsDistribution cardDistribution = new CardsDistribution();
         cardDistribution.playerCardsList(cardsList,++round);
-
     }
 }
