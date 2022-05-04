@@ -13,8 +13,7 @@ import com.project.callbreak.messagesender.SendMessage;
 import com.project.callbreak.server.impl.AppContext;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+
 
 /**
  *
@@ -204,15 +203,11 @@ public class CardsDistribution {
         
     }
     
-    public void playerCardsList(ArrayList<Card> cardsList,int round){
+    public void playerCardsList(ArrayList<Card> cardsList){
                 
         CreateCardsList ccl = CardsDistribution.getInstance().cardsDistributionLogic(cardsList);
         
-        LinkedHashMap<String,Table> tableCollection = AppContext.getInstance().getTableCollection();
-        Table table = new Table();
-        for (Map.Entry<String, Table> entry : tableCollection.entrySet()) {
-            table = entry.getValue(); 
-        }
+        Table table  = AppContext.getInstance().getLatestTable();
         
         ArrayList<ArrayList<Card>> playerCardsList = ccl.playerList(ccl.getPlayer1List(), ccl.getPlayer2List(), ccl.getPlayer3List(), ccl.getPlayer4List());
         int i=0;
@@ -223,19 +218,10 @@ public class CardsDistribution {
             gamePlayer.setPlayerCards(playerCardsList.get(i));
             chair.setGamePlayer(gamePlayer);
             i++;
-            //System.out.println("Chairs: "+chair.toString());
-            String string = GameEncoder.getInstance().buildPlayerCards(table.getTableId(),round,gamePlayer);
+            String string = GameEncoder.getInstance().buildPlayerCards(table,gamePlayer);
             System.out.println("PlayerCards: "+string);
-//            String cfs = "cfs#1237:h:11:1,1234:h:3:2,1236:c:3:3,1235:d:5:4";
-            
-//            SendMessage.getInstance().send(cfs,chair.getPlayer());
-            
-            SendMessage.getInstance().send(string,chair.getPlayer());
-            
-            
-        }
-        //System.out.println("Table is : "+ table.toString());
-        
+            SendMessage.getInstance().send(string,chair.getPlayer());  
+        }        
     }
 }
 

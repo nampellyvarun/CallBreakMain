@@ -19,7 +19,39 @@ public class Table {
     private ArrayList<Chair> chairList = new ArrayList<>();
     private String tableId;
     private String status = null;
+    private ArrayList<Card> trickList = new ArrayList<>();
     
+    private int round ;
+    private int trickCount;
+
+    public int getTrickCount() {
+        return trickCount;
+    }
+
+    public void setTrickCount(int trickCount) {
+        this.trickCount = trickCount;
+    }
+    
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+    }
+    
+
+    public ArrayList<Card> getTrickList() {
+        return trickList;
+    }
+
+    public void addCard(Card card) {
+        if (trickList.size()==4){
+            trickList=null;
+        }
+        trickList.add(card);
+    }
+
     public String getStatus() {
         return status;
     }

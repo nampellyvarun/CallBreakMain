@@ -25,7 +25,7 @@ public class Score {
             roundScore = (float) ((float)bid + (0.1*(tricksWon-bid)));  
         }
         else{
-            roundScore = bid - tricksWon;
+            roundScore = tricksWon-bid;
         }
         
         totalScore = totalScore+roundScore;

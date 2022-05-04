@@ -5,12 +5,7 @@
 package com.project.callbreak.timer;
 
 import com.project.callbreak.info.GenerateCards;
-import com.project.callbreak.info.Table;
-import com.project.callbreak.protocols.CDProtocol;
 import com.project.callbreak.protocols.CFSProtocol;
-import com.project.callbreak.server.impl.AppContext;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Timer;
 
 /**
@@ -39,6 +34,10 @@ public class StartGameTimer extends Thread{
                         ex.printStackTrace();
                     }    
                 }
+                GenerateCards gCards = new GenerateCards();
+                CFSProtocol cfsp = new CFSProtocol();
+                cfsp.cfsProtocol(gCards);
+    
  
             }
  }

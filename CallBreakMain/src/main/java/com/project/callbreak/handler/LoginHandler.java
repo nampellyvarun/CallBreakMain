@@ -8,20 +8,16 @@ import com.project.callbreak.gameencoders.GameEncoder;
 import com.project.callbreak.info.*;
 import com.project.callbreak.messagesender.SendMessage;
 import com.project.callbreak.nio.HandlerInterface;
-import com.project.callbreak.protocols.CDProtocol;
-import com.project.callbreak.protocols.CFSProtocol;
 import com.project.callbreak.protocols.PositionProtocol;
 import com.project.callbreak.server.impl.AppContext;
-import com.project.callbreak.timer.ProtocolTimer;
 import com.project.callbreak.timer.StartGameTimer;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
@@ -64,9 +60,10 @@ public class LoginHandler implements HandlerInterface{
                     String userid = st2.nextToken();
                     String pass = st2.nextToken();
                     System.out.println("");
-                    System.out.println("From server - Userid: "+userid+" password: "+pass);
-                    System.out.println("From client - Userid: "+userID+" password: "+pwd);
+                    
                     if(userID.equals(userid) && pwd.equals(pass)){
+//                        System.out.println("From server - Userid: "+userid+" password: "+pass);
+//                        System.out.println("From client - Userid: "+userID+" password: "+pwd);
                         x=1;
                         userCount++;
                         player.setStatus("100");
@@ -85,20 +82,19 @@ public class LoginHandler implements HandlerInterface{
  
                         }
                         else{
-                            LinkedHashMap<String,Table> tableCollection = AppContext.getInstance().getTableCollection();
-                            System.out.println("table Collection size : "+ (tableCollection.size()));
-                            Table table = new Table();
-                            for (Map.Entry<String, Table> entry : tableCollection.entrySet()) {
-                                table  = entry.getValue();      
-                            }                                
+                            Table table  = AppContext.getInstance().getLatestTable();
                             if(table.getStatus().equals("registering")){
                                 GamePlayer gamePlayer = new GamePlayer(player.getUserId());
                                 System.out.println("GamePlayerid :"+gamePlayer.getPlayerId());
                                 table.addChair(gamePlayer);
                                 System.out.println("Table1: other players joining the game"+gamePlayer.getPlayerId());
                                 if(table.getChairs().size()==4){
+                                    String tableId = table.getTableId();
                                     System.out.println("Table ready to start");
-                                    
+                                    ArrayList<Chair> chairList = table.getChairs();
+                                    for(Chair chair : chairList){
+                                        chair.getPlayer().setTableId(tableId);
+                                    }
                                     table.setStatus("full");
                                 }
                             }
@@ -134,67 +130,43 @@ public class LoginHandler implements HandlerInterface{
             player.setStatus("100");
             stringStatus = GameEncoder.getInstance().buildLoginAck("100");
             player.setUserId(userID);
-            System.out.println("Ak status: "+stringStatus);
-            LinkedHashMap<String,Table> tableCollection = AppContext.getInstance().getTableCollection();
-            Table table = new Table();
-            for (Map.Entry<String, Table> entry : tableCollection.entrySet()) {
-                table  = entry.getValue();      
-            } 
-            PositionProtocol positionProtocol = new PositionProtocol();
-            positionProtocol.playerPositions(table);
-            
+            System.out.println("Ak status: "+stringStatus); 
         }
         else{
             System.out.println("Invalid");
             player.setStatus("111");
             stringStatus = GameEncoder.getInstance().buildLoginAck("111");
             System.out.println("Ak status: "+stringStatus);
-            }
-        
+        }
         try {
             SendMessage.getInstance().send(stringStatus,player);
+            Table table  = AppContext.getInstance().getLatestTable();
+            PositionProtocol positionProtocol = new PositionProtocol();
+            positionProtocol.playerPositions(table);
         } catch (Exception e) {
             e.printStackTrace();
         }
         
-        SendMessage.getInstance().send(stringStatus,player);
+        stringStatus = "";
         
-        ProtocolTimer pt = new ProtocolTimer();
-//        String stringStart = "sTime#5";
-//        if(userCount%4==0){
-//            for(int j=0;j<5;j++){
-//                HashMap<String,Player> playerCollection = AppContext.getInstance().getPlayerCollection();
-//                for (Map.Entry mapElement : playerCollection.entrySet()) {
-//                    SendMessage.getInstance().send(stringStart+"-"+j,(Player) mapElement.getValue());
-//                }
-//                pt.start();
-//            }
-//        }
-
-
-        if(userCount%4==0 ){
+        if(AppContext.getInstance().getLatestTable().getChairs().size() ==4){
+            Table table = AppContext.getInstance().getLatestTable();
             StartGameTimer startGameTimer = new StartGameTimer();
             String stringStart = "sTime#5";
-            HashMap<String,Player> playerCollection = AppContext.getInstance().getPlayerCollection();
-            for (Map.Entry mapElement : playerCollection.entrySet()) {
-                SendMessage.getInstance().send(stringStart,(Player) mapElement.getValue());
-            }
+            SendMessage.getInstance().sendMessageToTablePlayers(stringStart, table);
+            System.out.println();
             startGameTimer.start();
             System.out.println("Waited for 5 sec successfully");
-            
-            
-            LinkedHashMap<String,Table> tableCollection = AppContext.getInstance().getTableCollection();
-            Table table = new Table();
-            for (Map.Entry<String, Table> entry : tableCollection.entrySet()) {
-                table  = entry.getValue();      
-            } 
-            
-            GenerateCards gCards = new GenerateCards();
-            CFSProtocol cfsp = new CFSProtocol();
-            cfsp.cfsProtocol(gCards,table);
-            CDProtocol cdp = new  CDProtocol();
-            cdp.cdProtocol(gCards.cardList);
         }
+//        if(userCount%4==0 ){
+//            StartGameTimer startGameTimer = new StartGameTimer();
+//            String stringStart = "sTime#5";
+//            Table table  = AppContext.getInstance().getLatestTable();
+//            SendMessage.getInstance().sendMessageToTablePlayers(stringStart, table);
+//            System.out.println();
+//            startGameTimer.start();
+//            System.out.println("Waited for 5 sec successfully");
+//        }
         return null;   
     }
 

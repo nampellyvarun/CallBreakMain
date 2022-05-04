@@ -4,7 +4,10 @@
  */
 package com.project.callbreak.messagesender;
 
+import com.project.callbreak.info.Chair;
 import com.project.callbreak.info.Player;
+import com.project.callbreak.info.Table;
+import java.util.ArrayList;
 
 
 /**
@@ -22,7 +25,25 @@ public class SendMessage {
         return instance;
     }
     public void send(String string,Player player){
-        //System.out.println(player.getNci());
+        
         player.getNci().sendMessage(string);
+    }
+    
+    public void sendMessageToTablePlayers(String string,Table table){
+        //System.out.println(player.getNci());
+        ArrayList<Chair> chairList = table.getChairs();
+        for (Chair chair : chairList) {
+            SendMessage.getInstance().send(string,chair.getPlayer());
+        }
+    }
+    
+    public void sendMessageToOtherPlayers(String userId,String string,Table table){
+        //System.out.println(player.getNci());
+        ArrayList<Chair> chairList = table.getChairs();
+        for (Chair chair : chairList) {
+            if(!userId.equals(chair.getPlayer().getUserId())){
+                SendMessage.getInstance().send(string,chair.getPlayer());
+            }
+        }
     }
 }

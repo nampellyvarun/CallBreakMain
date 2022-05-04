@@ -69,6 +69,8 @@ public class CBServer extends Server{
             AppContext.getInstance().loadMapHandlers();
             System.out.println("Handler loaded"+AppContext.getInstance().getMapHandler().toString());
             
+            LobbyWebSocketServer lobbywebSocket = new LobbyWebSocketServer(getPortNumber() + 1000, getServerName());
+            new Thread(lobbywebSocket, getServerName() + "WebSocketServer").start();
             //starting the Lobbywebsocket server
             //System.out.println("lobby webscoket started- yellaiah2");
             HashedWheelTimerCust timer = new HashedWheelTimerCust();

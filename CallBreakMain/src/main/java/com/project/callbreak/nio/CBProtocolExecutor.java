@@ -43,7 +43,7 @@ public class CBProtocolExecutor {
                 
                 StringTokenizer st1 = new StringTokenizer(details,",");
                 String s= st1.nextToken();     
-                System.out.println("UserId after split: "+s);
+                //System.out.println("UserId after split: "+s);
                 ctx.attr(NIOConstants.ATTACHMENT).set(s);
                 attachUserId=s;
                 Player player = new Player();
@@ -61,7 +61,7 @@ public class CBProtocolExecutor {
                 
             }
         }
-        System.out.println("attachUserId: "+(String) ctx.attr(NIOConstants.ATTACHMENT).get());
+        //System.out.println("attachUserId: "+(String) ctx.attr(NIOConstants.ATTACHMENT).get());
         Player player = AppContext.getInstance().getPlayerByUserId(attachUserId);
         
         if(handlerInterface != null){

@@ -6,7 +6,6 @@ package com.project.callbreak.protocols;
 
 import com.project.callbreak.info.Card;
 import com.project.callbreak.services.CardsDistribution;
-import com.project.callbreak.timer.ProtocolTimer;
 import java.util.ArrayList;
 
 /**
@@ -14,21 +13,21 @@ import java.util.ArrayList;
  * @author srivarun
  */
 public class CDProtocol {
-    public int round;
-
-    public int getRound() {
-        return round;
-    }
-
-    public void setRound(int round) {
-        this.round = round;
-    }
+//    public int round;
+//
+//    public int getRound() {
+//        return round;
+//    }
+//
+//    public void setRound(int round) {
+//        this.round = round;
+//    }
     
     public void cdProtocol(ArrayList<Card> cardsList){
-        if(round==5){
-            round=0;
-        }
+//        if(round==5){
+//            round=0;
+//        }
         CardsDistribution cardDistribution = new CardsDistribution();
-        cardDistribution.playerCardsList(cardsList,++round);
+        cardDistribution.playerCardsList(cardsList);
     }
 }

@@ -6,7 +6,6 @@ package com.project.callbreak.protocols;
 
 import com.project.callbreak.gameencoders.GameEncoder;
 import com.project.callbreak.info.Chair;
-import com.project.callbreak.info.GamePlayer;
 import com.project.callbreak.info.Table;
 import com.project.callbreak.messagesender.SendMessage;
 import com.project.callbreak.services.Score;
@@ -28,9 +27,7 @@ public class RoundScoreProtocol {
         
         String string = GameEncoder.getInstance().buildScoreCard(table);
         
-        for(Chair chair : chairList){
-            SendMessage.getInstance().send(string, chair.getPlayer());
-        }
+        SendMessage.getInstance().sendMessageToTablePlayers(string, table);
     }
     
 }

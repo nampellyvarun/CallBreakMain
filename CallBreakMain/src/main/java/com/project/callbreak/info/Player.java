@@ -14,6 +14,9 @@ public class Player {
     private String userId;
     private String status;
     private NioConnectionInt nioConnectionInt;
+    private String tableId;
+    
+    
 
     public Player(String userId, String status, NioConnectionInt nioConnectionInt) {
         this.userId = userId;
@@ -23,6 +26,16 @@ public class Player {
 
     public Player() {
     }
+
+    public String getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(String tableId) {
+        this.tableId = tableId;
+    }
+    
+    
 
     public String getUserId() {
         return userId;

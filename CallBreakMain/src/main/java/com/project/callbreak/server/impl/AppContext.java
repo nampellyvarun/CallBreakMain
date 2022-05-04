@@ -12,8 +12,8 @@ import com.project.callbreak.info.Player;
 import com.project.callbreak.info.Table;
 import java.util.HashMap;
 import com.project.callbreak.nio.HandlerInterface;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Map;
 /**
  *
  * @author srivarun
@@ -28,20 +28,6 @@ public class AppContext {
         }
         return instance;
     }
-    ArrayList<Card> trickList = new ArrayList<>();
-    
-    public void addCard(Card card){
-        trickList.add(card);
-    }
-
-    public ArrayList<Card> getTrickList() {
-        return trickList;
-    }
-
-    public void setTrickList(ArrayList<Card> trickList) {
-        this.trickList = trickList;
-    }
-    
     
     LinkedHashMap<String,Table> tableCollection = new LinkedHashMap<>();
 
@@ -59,6 +45,14 @@ public class AppContext {
     
     public void addTable(String tableId,Table table){
         tableCollection.put(tableId,table);
+    }
+    
+    public Table getLatestTable(){
+        Table table  = new Table();
+        for (Map.Entry<String, Table> entry : tableCollection.entrySet()) {
+                table  = entry.getValue();      
+        }
+        return table;
     }
     
     
@@ -100,7 +94,7 @@ public class AppContext {
         mapHandler.put("bid", bidHandler);
         
         TrickCardHandler trickCardHandler = new TrickCardHandler();
-        mapHandler.put("trickCard",trickCardHandler);
+        mapHandler.put("trickcard",trickCardHandler);
     }
 
 }

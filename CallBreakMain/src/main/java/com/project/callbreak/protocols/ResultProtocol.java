@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.project.callbreak.protocols;
-
 import com.project.callbreak.gameencoders.GameEncoder;
 import com.project.callbreak.info.Chair;
 import com.project.callbreak.info.Table;
@@ -12,13 +11,14 @@ import java.util.ArrayList;
 
 /**
  *
- * @author srivarun
+ * @author abhirajd
  */
-public class BidAckProtocol {
-    public void bidAckProtocol(String userId,Table table,int bid){
-        String string = GameEncoder.getInstance().buildBidAck(userId,bid);
-        ArrayList<Chair> chairList = table.getChairs();
-        SendMessage.getInstance().sendMessageToOtherPlayers(userId, string, table);
-    }   
+public class ResultProtocol {
+    public void resultProtocol(Table table){
+        
+        String result= GameEncoder.getInstance().buildResult(table);
+        SendMessage.getInstance().sendMessageToTablePlayers(result, table);
+        
+    }
     
 }

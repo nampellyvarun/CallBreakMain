@@ -10,8 +10,6 @@ import com.project.callbreak.info.Table;
 import com.project.callbreak.nio.HandlerInterface;
 import com.project.callbreak.protocols.BidAckProtocol;
 import com.project.callbreak.server.impl.AppContext;
-import java.util.LinkedHashMap;
-import java.util.Map;
 /**
  *
  * @author srivarun
@@ -21,12 +19,9 @@ public class BidHandler implements HandlerInterface{
     @Override
     public String handle(String string, Player player) {
         String userId = player.getUserId();
-        LinkedHashMap<String,Table> tableCollection = AppContext.getInstance().getTableCollection();
-        Table table = new Table(); //know from where to get table
-        for (Map.Entry<String, Table> entry : tableCollection.entrySet()) {
-            table  = entry.getValue();      
-        } 
+        Table table = AppContext.getInstance().getTableByTableId(player.getTableId());
         int bid =0;
+        
         for (Chair chair : table.getChairs()) {
             if(chair.getGamePlayer().getPlayerId().equals(userId)){
                 
@@ -36,8 +31,8 @@ public class BidHandler implements HandlerInterface{
         }
         
         BidAckProtocol bap = new BidAckProtocol();
-        bap.bidAckProtocol(table, bid);
-        System.out.println(table.toString());
+        bap.bidAckProtocol(userId,table, bid);
+        //System.out.println(table.toString());
         System.out.println("Bid handler called");
         return null;
     }
