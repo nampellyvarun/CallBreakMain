@@ -5,6 +5,7 @@
 package com.project.callbreak.handler;
 
 import com.project.callbreak.info.Card;
+import com.project.callbreak.info.GamePlayer;
 import com.project.callbreak.info.Player;
 import com.project.callbreak.info.Table;
 import com.project.callbreak.nio.HandlerInterface;
@@ -26,7 +27,9 @@ public class TrickCardHandler implements HandlerInterface{
         Card card = new Card(stringToknizer.nextToken(),stringToknizer.nextToken().charAt(0),Integer.parseInt(stringToknizer.nextToken()));
         Table table = AppContext.getInstance().getTableByTableId(tableId);
         table.addCard(card);
-        
+        GamePlayer gp = AppContext.getInstance().getGamePlayerByUserId(player.getUserId(), table);
+        gp.getPlayerCards().remove(card);
+        System.out.println("PlayerCards after discard "+gp.getPlayerCards().size()+"-"+gp.getPlayerCards());
         TrickProtocol trickProtocol = new TrickProtocol();
         trickProtocol.trickCardProtocol(player.getUserId(),table, card);
         

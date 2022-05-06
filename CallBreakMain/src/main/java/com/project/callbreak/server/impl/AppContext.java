@@ -6,8 +6,10 @@ package com.project.callbreak.server.impl;
 
 import com.project.callbreak.handler.BidHandler;
 import com.project.callbreak.handler.LoginHandler;
+import com.project.callbreak.handler.PingHandler;
 import com.project.callbreak.handler.TrickCardHandler;
-import com.project.callbreak.info.Card;
+import com.project.callbreak.info.Chair;
+import com.project.callbreak.info.GamePlayer;
 import com.project.callbreak.info.Player;
 import com.project.callbreak.info.Table;
 import java.util.HashMap;
@@ -27,6 +29,15 @@ public class AppContext {
             }
         }
         return instance;
+    }
+    
+    
+    public GamePlayer getGamePlayerByUserId(String userId,Table table){
+            for(Chair chair:table.getChairs()){
+                if(chair.getGamePlayer().getPlayerId().equals(userId))
+                    return chair.getGamePlayer();
+            }
+            return null;
     }
     
     LinkedHashMap<String,Table> tableCollection = new LinkedHashMap<>();
@@ -95,6 +106,9 @@ public class AppContext {
         
         TrickCardHandler trickCardHandler = new TrickCardHandler();
         mapHandler.put("trickcard",trickCardHandler);
+        
+        PingHandler pingHandler = new PingHandler();
+        mapHandler.put("ping", pingHandler);
     }
 
 }

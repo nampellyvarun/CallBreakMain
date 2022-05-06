@@ -2,6 +2,8 @@
  *
  */
 package com.project.callbreak.server.impl;
+
+
 /**
  * @author Yellaiah This is boot strap server for all servers 
  server. command for starting the lobby server is "java BootStrap CBServer
@@ -17,12 +19,14 @@ public class BootStrap  {
         try {
             
             CBServer.getInstance().start(args);
-
+            
         } catch (Exception e) {
             System.out.println(" *  command for starting the lobby server is 'java BootStrap LobbyServer -DSERVER_CONFIG_XML=d:/opt/serverconfig.xml' " + e);
         }
     }
 }
+
+
 
 
 

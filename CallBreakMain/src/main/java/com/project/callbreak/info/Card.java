@@ -13,15 +13,13 @@ import java.util.Objects;
 public class Card implements Comparable<Card>{
     private int cardNumber;
     private char suit;
-    private Boolean isFaceCard;
     private String playerId;
     
 
     public Card(){}
-    public Card(int cardNumber, char suit, Boolean isFaceCard) {
+    public Card(int cardNumber, char suit) {
         this.cardNumber = cardNumber;
         this.suit = suit;
-        this.isFaceCard = isFaceCard;
     }
     public Card(String playerId, char suit ,int cardNumber) {
         this.playerId = playerId;
@@ -54,21 +52,12 @@ public class Card implements Comparable<Card>{
         this.suit = suit;
     }
 
-    public Boolean getIsFaceCard() {
-        return isFaceCard;
-    }
-
-    public void setIsFaceCard(Boolean isFaceCard) {
-        this.isFaceCard = isFaceCard;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + this.cardNumber;
-        hash = 29 * hash + this.suit;
-        hash = 29 * hash + Objects.hashCode(this.isFaceCard);
-        hash = 29 * hash + Objects.hashCode(this.playerId);
+        int hash = 7;
+        hash = 67 * hash + this.cardNumber;
+        hash = 67 * hash + this.suit;
+        hash = 67 * hash + Objects.hashCode(this.playerId);
         return hash;
     }
 
@@ -90,11 +79,12 @@ public class Card implements Comparable<Card>{
         if (this.suit != other.suit) {
             return false;
         }
-        if (!Objects.equals(this.playerId, other.playerId)) {
-            return false;
-        }
-        return Objects.equals(this.isFaceCard, other.isFaceCard);
+        return Objects.equals(this.playerId, other.playerId);
     }
+
+    
+
+    
 
     @Override
     public String toString() {

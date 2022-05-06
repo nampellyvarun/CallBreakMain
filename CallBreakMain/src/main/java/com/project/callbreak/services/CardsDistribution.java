@@ -41,22 +41,22 @@ public class CardsDistribution {
             allSpadeCards.add(i);
         }
         
-        ArrayList<Integer> nonSpadeFaceCards = new ArrayList<>();
+        ArrayList<Integer> faceCards = new ArrayList<>();
 
-        //Adding all Non-Spade Face Cards to nonSpadeFaceCards list    
+        //Adding all Non-Spade Face Cards to faceCards list    
         
-        nonSpadeFaceCards.add(13);
-        nonSpadeFaceCards.add(14);
-        nonSpadeFaceCards.add(15);
-        nonSpadeFaceCards.add(16);
-        nonSpadeFaceCards.add(26);
-        nonSpadeFaceCards.add(27);
-        nonSpadeFaceCards.add(28);
-        nonSpadeFaceCards.add(29);
-        nonSpadeFaceCards.add(39);
-        nonSpadeFaceCards.add(40);
-        nonSpadeFaceCards.add(41);
-        nonSpadeFaceCards.add(42);
+        faceCards.add(13);
+        faceCards.add(14);
+        faceCards.add(15);
+        faceCards.add(16);
+        faceCards.add(26);
+        faceCards.add(27);
+        faceCards.add(28);
+        faceCards.add(29);
+        faceCards.add(39);
+        faceCards.add(40);
+        faceCards.add(41);
+        faceCards.add(42);
 
         
 
@@ -85,9 +85,9 @@ public class CardsDistribution {
         //Shuffling the arrays using Collections
         Collections.shuffle(allSpadeCards);
         Collections.shuffle(nonSpadeNumberCards);
-        Collections.shuffle(nonSpadeFaceCards);
         
         
+        System.out.println("allSpadeCards before distribution: "+allSpadeCards);
 
         //Assigning a spade card to each player
         Card c = cardsList.get(allSpadeCards.remove(0));
@@ -102,27 +102,44 @@ public class CardsDistribution {
         c = cardsList.get(allSpadeCards.remove(0));
         c.setPlayerId("4");
         player4List.add(c);
-       
         
+
+        ArrayList<Integer> temp = new ArrayList<>();
         
-        //Assigning a face card to each player if player doesn't have a face card
-        if(player1List.get(0).getIsFaceCard() == false){
-            c = cardsList.get(nonSpadeFaceCards.remove(0));
+        temp.addAll(allSpadeCards);
+        
+        //Adding remaining Face Cards to faceCards list
+        for(int i : temp ){
+            if(  i == 0 || i== 1 || i== 2 || i== 3){
+                allSpadeCards.remove(new Integer(i));
+                faceCards.add(i);
+            }
+        }
+        
+        Collections.shuffle(faceCards);
+
+//        Assigning a face card to each player if player doesn't have a face card
+        int playerCardNumber =player1List.get(0).getCardNumber();
+        if(playerCardNumber != 11 || playerCardNumber !=12 || playerCardNumber !=13 || playerCardNumber !=14){
+            c = cardsList.get(faceCards.remove(0));
             c.setPlayerId("1");
             player1List.add(c);
         }
-        if(player2List.get(0).getIsFaceCard() == false){
-            c = cardsList.get(nonSpadeFaceCards.remove(0));
+        playerCardNumber=player2List.get(0).getCardNumber();
+        if(playerCardNumber != 11 || playerCardNumber !=12 || playerCardNumber !=13 || playerCardNumber !=14){
+            c = cardsList.get(faceCards.remove(0));
             c.setPlayerId("2");
             player2List.add(c);
         }
-        if(player3List.get(0).getIsFaceCard() == false){
-            c = cardsList.get(nonSpadeFaceCards.remove(0));
+        playerCardNumber=player3List.get(0).getCardNumber();
+        if(playerCardNumber != 11 || playerCardNumber !=12 || playerCardNumber !=13 || playerCardNumber !=14){
+            c = cardsList.get(faceCards.remove(0));
             c.setPlayerId("3");
             player3List.add(c);
         }
-        if(player4List.get(0).getIsFaceCard() == false){
-            c = cardsList.get(nonSpadeFaceCards.remove(0));
+        playerCardNumber=player4List.get(0).getCardNumber();
+        if(playerCardNumber != 11 || playerCardNumber !=12 || playerCardNumber !=13 || playerCardNumber !=14){
+            c = cardsList.get(faceCards.remove(0));
             c.setPlayerId("4");
             player4List.add(c);
         }
@@ -132,59 +149,34 @@ public class CardsDistribution {
 
         //Adding remaining cards to remainingCards list        
         remainingCards.addAll(allSpadeCards);
-        remainingCards.addAll(nonSpadeFaceCards);
+        remainingCards.addAll(faceCards);
         remainingCards.addAll(nonSpadeNumberCards);
 
         //Shuffling the remainingCardsList using Collections        
         Collections.shuffle(remainingCards);
-       
 
-        //Assigning player 1 with a total of 13 random cards        
         while(!remainingCards.isEmpty()){
             if(player1List.size()!=13){
                 c = cardsList.get(remainingCards.remove(0));
                 c.setPlayerId("1");
                 player1List.add(c);
             }
-            else{
-                break;
-            }
-        }
-        
-        //Assigning player 2 with a total of 13 random cards          
-        while(!remainingCards.isEmpty()){
             if(player2List.size()!=13){
                 c = cardsList.get(remainingCards.remove(0));
                 c.setPlayerId("2");
                 player2List.add(c);
             }
-            else{
-                break;
-            }
-        }
-
-        //Assigning player 3 with a total of 13 random cards  
-        while(!remainingCards.isEmpty()){
             if(player3List.size()!=13){
                 c = cardsList.get(remainingCards.remove(0));
                 c.setPlayerId("3");
                 player3List.add(c);
             }
-            else{
-                break;
-            }
-        }
-
-        //Assigning player 4 with a total of 13 random cards          
-        while(!remainingCards.isEmpty()){
             if(player4List.size()!=13){
                 c = cardsList.get(remainingCards.remove(0));
                 c.setPlayerId("4");
                 player4List.add(c);
             }
-            else{
-                break;
-            }
+            
         }
         
         Collections.sort(player1List);
@@ -192,15 +184,12 @@ public class CardsDistribution {
         Collections.sort(player3List);
         Collections.sort(player4List);
         
-        
         ccl.setPlayer1List(player1List);
         ccl.setPlayer2List(player2List);
         ccl.setPlayer3List(player3List);
         ccl.setPlayer4List(player4List);
         
-
-        return ccl;
-        
+        return ccl;    
     }
     
     public void playerCardsList(ArrayList<Card> cardsList){
@@ -215,6 +204,9 @@ public class CardsDistribution {
         ArrayList<Chair> chairList = table.getChairs();
         for(Chair chair : chairList){
             GamePlayer gamePlayer = chair.getGamePlayer();
+            for(Card c : playerCardsList.get(i)){
+                c.setPlayerId(gamePlayer.getPlayerId());
+            }
             gamePlayer.setPlayerCards(playerCardsList.get(i));
             chair.setGamePlayer(gamePlayer);
             i++;

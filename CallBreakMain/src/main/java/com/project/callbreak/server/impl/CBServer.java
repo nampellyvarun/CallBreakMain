@@ -53,7 +53,7 @@ public class CBServer extends Server{
 
     public String serverResponse()throws Exception{
         return null;    
-}
+    }
 
 
     @Override

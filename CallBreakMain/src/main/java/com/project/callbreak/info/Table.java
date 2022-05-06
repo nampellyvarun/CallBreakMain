@@ -20,9 +20,15 @@ public class Table {
     private String tableId;
     private String status = null;
     private ArrayList<Card> trickList = new ArrayList<>();
+
     
     private int round ;
     private int trickCount;
+
+   
+    
+    
+    
 
     public int getTrickCount() {
         return trickCount;

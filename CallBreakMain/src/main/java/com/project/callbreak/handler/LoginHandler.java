@@ -26,15 +26,15 @@ import java.util.StringTokenizer;
  */
 
 public class LoginHandler implements HandlerInterface{
-    private static LoginHandler instance = null;
-    public static LoginHandler getInstance() {
-        if (instance == null) {
-            synchronized (Object.class) {
-                instance = instance == null ? new LoginHandler() : instance;
-            }
-        }
-        return instance;
-    }
+//    private static LoginHandler instance = null;
+//    public static LoginHandler getInstance() {
+//        if (instance == null) {
+//            synchronized (Object.class) {
+//                instance = instance == null ? new LoginHandler() : instance;
+//            }
+//        }
+//        return instance;
+//    }
     
     public int userCount = 0;
     @Override
@@ -105,6 +105,7 @@ public class LoginHandler implements HandlerInterface{
                                 GamePlayer gamePlayer = new GamePlayer(player.getUserId());
                                 System.out.println(gamePlayer.getPlayerId());
                                 table1.addChair(gamePlayer);
+                                table1.setStatus("registering");
                                 AppContext.getInstance().addTable(tableId, table1);
                             }
                         }    

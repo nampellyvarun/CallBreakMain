@@ -5,17 +5,18 @@
 package com.project.callbreak.services;
 
 import com.project.callbreak.info.GamePlayer;
+import com.project.callbreak.info.Table;
 
 /**
  *
  * @author srivarun
  */
 public class Score {
-    public void ScoreCalculation(GamePlayer gamePlayer){
+    public float ScoreCalculation(Table table,GamePlayer gamePlayer){
 
         int bid = gamePlayer.getBid();
         int tricksWon = gamePlayer.getTricksWon();
-        float roundScore = gamePlayer.getRoundScore();
+        float roundScore = 0;
         float totalScore = gamePlayer.getTotalScore();
         
         if(bid == tricksWon){
@@ -28,9 +29,12 @@ public class Score {
             roundScore = tricksWon-bid;
         }
         
+        gamePlayer.addRoundScoreToScoreCard(table.getRound(), roundScore);
+        System.out.println(""+gamePlayer.getScoreCard());
         totalScore = totalScore+roundScore;
         gamePlayer.setRoundScore(roundScore);
         gamePlayer.setTotalScore(totalScore);
+        return roundScore;
     }
     
 }

@@ -4,10 +4,9 @@
  */
 package com.project.callbreak.protocols;
 import com.project.callbreak.gameencoders.GameEncoder;
-import com.project.callbreak.info.Chair;
 import com.project.callbreak.info.Table;
 import com.project.callbreak.messagesender.SendMessage;
-import java.util.ArrayList;
+import com.project.callbreak.server.impl.AppContext;
 
 /**
  *
@@ -18,6 +17,7 @@ public class ResultProtocol {
         
         String result= GameEncoder.getInstance().buildResult(table);
         SendMessage.getInstance().sendMessageToTablePlayers(result, table);
+        AppContext.getInstance().getTableCollection().remove(table.getTableId());
         
     }
     
