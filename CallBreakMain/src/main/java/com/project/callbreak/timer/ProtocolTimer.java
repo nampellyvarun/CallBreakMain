@@ -4,11 +4,13 @@
  */
 package com.project.callbreak.timer;
 
+import com.project.callbreak.info.GenerateCards;
+import com.project.callbreak.protocols.CDProtocol;
 import java.util.Timer;
 
 /**
  *
- * @author srivarun
+ * @author abhirajd
  */
 public class ProtocolTimer extends Thread{
     static Timer timer;
@@ -32,5 +34,8 @@ public class ProtocolTimer extends Thread{
                         ex.printStackTrace();
                     }    
                 }
+                GenerateCards gCards = new GenerateCards();
+                CDProtocol cdp = new  CDProtocol();
+                cdp.cdProtocol(gCards.cardList);
             }
 }

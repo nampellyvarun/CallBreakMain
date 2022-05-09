@@ -13,22 +13,17 @@ import java.util.ArrayList;
 
 /**
  *
- * @author srivarun
+ * @author abhirajd
  */
 public class RoundScoreProtocol {
     
     public void roundScoreProtocol(Table table){
         Score score = new Score();
         ArrayList<Chair> chairList = table.getChairs();
-        
         for(Chair chair : chairList ){
             
             score.ScoreCalculation(table,chair.getGamePlayer());
-            
         }
-        
-        
-        
         
         String string = GameEncoder.getInstance().buildScoreCard(table);
         

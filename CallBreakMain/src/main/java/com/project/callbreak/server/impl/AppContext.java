@@ -18,7 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 /**
  *
- * @author srivarun
+ * @author abhirajd
  */
 public class AppContext {
     private static AppContext instance = null;
@@ -29,15 +29,6 @@ public class AppContext {
             }
         }
         return instance;
-    }
-    
-    
-    public GamePlayer getGamePlayerByUserId(String userId,Table table){
-            for(Chair chair:table.getChairs()){
-                if(chair.getGamePlayer().getPlayerId().equals(userId))
-                    return chair.getGamePlayer();
-            }
-            return null;
     }
     
     LinkedHashMap<String,Table> tableCollection = new LinkedHashMap<>();
@@ -79,6 +70,13 @@ public class AppContext {
 
     public Player getPlayerByUserId(String userId) {
         return playerCollection.get(userId);
+    }
+    public GamePlayer getGamePlayerByUserId(String userId,Table table){
+            for(Chair chair:table.getChairs()){
+                if(chair.getGamePlayer().getPlayerId().equals(userId))
+                    return chair.getGamePlayer();
+            }
+            return null;
     }
 
     public void addPlayer(String userId,Player player) {

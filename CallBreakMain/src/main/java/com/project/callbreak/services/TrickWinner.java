@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author srivarun
+ * @author abhirajd
  */
 public class TrickWinner {
         

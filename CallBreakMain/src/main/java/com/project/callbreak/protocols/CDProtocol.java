@@ -10,23 +10,12 @@ import java.util.ArrayList;
 
 /**
  *
- * @author srivarun
+ * @author abhirajd
  */
 public class CDProtocol {
-//    public int round;
-//
-//    public int getRound() {
-//        return round;
-//    }
-//
-//    public void setRound(int round) {
-//        this.round = round;
-//    }
-    
+
     public void cdProtocol(ArrayList<Card> cardsList){
-//        if(round==5){
-//            round=0;
-//        }
+
         CardsDistribution cardDistribution = new CardsDistribution();
         cardDistribution.playerCardsList(cardsList);
     }

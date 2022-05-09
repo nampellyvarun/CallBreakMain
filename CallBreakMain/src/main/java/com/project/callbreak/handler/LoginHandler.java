@@ -22,19 +22,19 @@ import java.util.StringTokenizer;
 
 /**
  *
- * @author srivarun
+ * @author abhirajd
  */
 
 public class LoginHandler implements HandlerInterface{
-//    private static LoginHandler instance = null;
-//    public static LoginHandler getInstance() {
-//        if (instance == null) {
-//            synchronized (Object.class) {
-//                instance = instance == null ? new LoginHandler() : instance;
-//            }
-//        }
-//        return instance;
-//    }
+    private static LoginHandler instance = null;
+    public static LoginHandler getInstance() {
+        if (instance == null) {
+            synchronized (Object.class) {
+                instance = instance == null ? new LoginHandler() : instance;
+            }
+        }
+        return instance;
+    }
     
     public int userCount = 0;
     @Override
@@ -105,7 +105,7 @@ public class LoginHandler implements HandlerInterface{
                                 GamePlayer gamePlayer = new GamePlayer(player.getUserId());
                                 System.out.println(gamePlayer.getPlayerId());
                                 table1.addChair(gamePlayer);
-                                table1.setStatus("registering");
+                                table.setStatus("registering");
                                 AppContext.getInstance().addTable(tableId, table1);
                             }
                         }    
@@ -159,19 +159,9 @@ public class LoginHandler implements HandlerInterface{
             startGameTimer.start();
             System.out.println("Waited for 5 sec successfully");
         }
-//        if(userCount%4==0 ){
-//            StartGameTimer startGameTimer = new StartGameTimer();
-//            String stringStart = "sTime#5";
-//            Table table  = AppContext.getInstance().getLatestTable();
-//            SendMessage.getInstance().sendMessageToTablePlayers(stringStart, table);
-//            System.out.println();
-//            startGameTimer.start();
-//            System.out.println("Waited for 5 sec successfully");
-//        }
         return null;   
     }
 
    
 }
     
-

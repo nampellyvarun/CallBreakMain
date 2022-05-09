@@ -8,9 +8,8 @@ import com.project.callbreak.info.Player;
 
 /**
  *
- * @author srivarun
+ * @author abhirajd
  */
 public interface HandlerInterface {
-    
     public String handle(String string, Player player);
 }

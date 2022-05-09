@@ -12,7 +12,7 @@ import java.util.Iterator;
 
 /**
  *
- * @author srivarun
+ * @author abhirajd
  */
 public class CutForSeat {
 
@@ -35,17 +35,15 @@ public class CutForSeat {
         //Generating 4 random cards and adding it to the HashSet
         for(int i=1;i<=4;i++){
             Card c = gCards.cardList.get(cnl.remove(0));
-            c.setPlayerId(Integer.toString(i));
+//            c.setPlayerId(Integer.toString(i));
             alCFSCards.add(c);
-            //alCFSCardsSuit.add(alCFSCards.get(i).getSuit());
-            
         }
         
         
               
         Iterator<Card> itr1 = alCFSCards.iterator();
         Card cDistributor = itr1.next();
-         Card cDiscarder = cDistributor;
+        Card cDiscarder = cDistributor;
                 
         int highCard=cDistributor.getCardNumber();
         int lowCard=cDistributor.getCardNumber();
@@ -73,7 +71,7 @@ public class CutForSeat {
                   }
             }
         }
-         ArrayList<Card> alSeatArrangement = new ArrayList<>();
+        ArrayList<Card> alSeatArrangement = new ArrayList<>();
         alSeatArrangement.add(cDistributor);
         alSeatArrangement.add(cDiscarder);
         alCFSCards.remove(cDistributor);
@@ -111,6 +109,8 @@ public class CutForSeat {
         for(int i=1;i<4;i++){
             sb.append(";").append(alSeatArrangement.get(i));
         }
+        
+        
 //        System.out.println("Player "+cDistributor.getPlayerId()+" Distributes the cards and Player "+cDiscarder.getPlayerId()+" Discards the first Card");
         return alSeatArrangement;
     }

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author srivarun
+ * @author abhirajd
  */
 public class SendMessage {
     private static SendMessage instance = null;

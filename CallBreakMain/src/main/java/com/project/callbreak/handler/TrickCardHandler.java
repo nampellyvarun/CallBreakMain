@@ -9,13 +9,14 @@ import com.project.callbreak.info.GamePlayer;
 import com.project.callbreak.info.Player;
 import com.project.callbreak.info.Table;
 import com.project.callbreak.nio.HandlerInterface;
+import com.project.callbreak.protocols.ActiveUsersProtocol;
 import com.project.callbreak.protocols.TrickProtocol;
 import com.project.callbreak.server.impl.AppContext;
 import java.util.StringTokenizer;
 
 /**
  *
- * @author srivarun
+ * @author abhirajd
  */
 public class TrickCardHandler implements HandlerInterface{
 
@@ -24,14 +25,18 @@ public class TrickCardHandler implements HandlerInterface{
         System.out.println("TrickCardHandler called");
         StringTokenizer stringToknizer = new StringTokenizer(string,",");
         String tableId = player.getTableId();
-        Card card = new Card(stringToknizer.nextToken(),stringToknizer.nextToken().charAt(0),Integer.parseInt(stringToknizer.nextToken()));
+        Card card = new Card(player.getUserId(),stringToknizer.nextToken().charAt(0),Integer.parseInt(stringToknizer.nextToken()));
         Table table = AppContext.getInstance().getTableByTableId(tableId);
         table.addCard(card);
         GamePlayer gp = AppContext.getInstance().getGamePlayerByUserId(player.getUserId(), table);
         gp.getPlayerCards().remove(card);
-        System.out.println("PlayerCards after discard "+gp.getPlayerCards().size()+"-"+gp.getPlayerCards());
+        System.out.println("after removing card : " +gp.getPlayerCards());
         TrickProtocol trickProtocol = new TrickProtocol();
         trickProtocol.trickCardProtocol(player.getUserId(),table, card);
+        
+        System.out.println("user active called");
+        ActiveUsersProtocol aup = new ActiveUsersProtocol();
+        aup.activeUsers(table,table.getActiveUser());
         
         return null;
     }

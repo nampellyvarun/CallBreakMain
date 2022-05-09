@@ -8,12 +8,7 @@ import com.project.callbreak.info.Player;
 import com.project.callbreak.nio.impl.NioConnection;
 import com.project.callbreak.server.impl.AppContext;
 import io.netty.channel.ChannelHandlerContext;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.StringTokenizer;
-import jdk.nashorn.internal.ir.Statement;
 
 /**
  *
@@ -34,7 +29,6 @@ public class CBProtocolExecutor {
     public void executeProtocol(String buffer, ChannelHandlerContext ctx) {
         
         buffer = buffer.trim();
-        System.out.println("protocol from client : "+buffer);
         StringTokenizer st = new StringTokenizer(buffer,"#");
         String protocol = st.nextToken();
         String details = st.nextToken();
@@ -45,28 +39,7 @@ public class CBProtocolExecutor {
         String attachUserId = (String) ctx.attr(NIOConstants.ATTACHMENT).get();
         if (attachUserId == null){
             System.out.println("attachUserId is null");
-            
             if(buffer.startsWith("login#")){    
-//                Connection conn = null;
-//                try {
-//                    String url = "jdbc:mysql://10.0.21.66:3305/swaroop_gadusu\n" +"";
-//                    conn = DriverManager.getConnection(url);
-//                    System.out.println("Connected to database!");
-//                    PreparedStatement ps1,ps2;
-//                    ps1 = conn.prepareStatement("select count(*) from callbreak where username = ? and password=?");
-//                    ps2 = conn.prepareStatement("select * from callbreak");
-//                    
-//                } catch (SQLException e) {
-//                    throw new Error("Problem", e);
-//                } finally {
-//                  try {
-//                    if (conn != null) {
-//                        conn.close();
-//                    }
-//                  } catch (SQLException ex) {
-//                      System.out.println(ex.getMessage());
-//                  }
-//                }
                 
                 StringTokenizer st1 = new StringTokenizer(details,",");
                 String s= st1.nextToken();     
@@ -100,4 +73,3 @@ public class CBProtocolExecutor {
             
     }         
 }
-

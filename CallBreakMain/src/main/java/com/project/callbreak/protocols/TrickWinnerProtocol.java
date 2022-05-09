@@ -6,13 +6,15 @@ package com.project.callbreak.protocols;
 
 /**
  *
- * @author srivarun
+ * @author abhirajd
  */
 
 import com.project.callbreak.gameencoders.GameEncoder;
 import com.project.callbreak.info.Table;
 import com.project.callbreak.messagesender.SendMessage;
 import com.project.callbreak.services.TrickWinner;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class TrickWinnerProtocol
 { 
@@ -23,5 +25,18 @@ public class TrickWinnerProtocol
         String string = GameEncoder.getInstance().buildTrickWinner(table,winnerId);
         System.out.println("TrickWinner: "+ string);
         SendMessage.getInstance().sendMessageToTablePlayers(string, table);  
+        
+        ArrayList<String> activeUsersList= table.getActiveUsersList();
+        int i=0;
+        while(!(activeUsersList.get(i).equals(winnerId)))
+        {
+            i++;
+        }
+        Collections.rotate(activeUsersList, 4-i);
+        table.setActiveUsers(activeUsersList);
+        
+//         ActiveUsersProtocol aup = new ActiveUsersProtocol();
+//         aup.activeUsers(table,table.getActiveUser());
+        
     }
 }

@@ -6,11 +6,12 @@ package com.project.callbreak.info;
 
 /**
  *
- * @author srivarun
+ * @author abhirajd
  */
 
 import com.project.callbreak.server.impl.AppContext;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 
@@ -20,14 +21,42 @@ public class Table {
     private String tableId;
     private String status = null;
     private ArrayList<Card> trickList = new ArrayList<>();
-
-    
+    private ArrayList<String> activeUsers = new ArrayList<>();
     private int round ;
     private int trickCount;
+    private String distributorId;
+//    private ArrayList<Card> seating;
+//
+//    public ArrayList<Card> getSeating() {
+//        return seating;
+//    }
+//
+//    public void setSeating(ArrayList<Card> seating) {
+//        this.seating = seating;
+//    }
 
-   
+    public String getDistributorId() {
+        return distributorId;
+    }
+
+    public void setDistributorId(String distributorId) {
+        this.distributorId = distributorId;
+    }
+
+    public String getActiveUser() {
+        String activeUser = activeUsers.get(0);
+        Collections.rotate(activeUsers,3);
+        return activeUser;
+    }
+
+    public ArrayList<String> getActiveUsersList() {
+        return activeUsers;
+    }
     
     
+    public void setActiveUsers(ArrayList<String> activeUsers) {
+        this.activeUsers = activeUsers;
+    }
     
 
     public int getTrickCount() {
