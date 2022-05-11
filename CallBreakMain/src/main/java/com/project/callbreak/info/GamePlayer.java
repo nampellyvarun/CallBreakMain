@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 /**
  *
- * @author abhirajd
+ * @author srivarun
  */
 public class GamePlayer {
     private String playerId;
@@ -18,9 +18,7 @@ public class GamePlayer {
     private int bid;
     private float roundScore;
     private float totalScore;
-    
     private HashMap<Integer,Float> scoreCard; 
-
     
     public GamePlayer(){
         
@@ -39,6 +37,8 @@ public class GamePlayer {
         this.playerId = playerId;
     }
     
+    
+
     public HashMap<Integer, Float> getScoreCard() {
         return scoreCard;
     }
@@ -49,6 +49,8 @@ public class GamePlayer {
     public void addRoundScoreToScoreCard(int round,float roundScore) {
         scoreCard.put(round, roundScore);
     }
+    
+    
 
     public String getPlayerId() {
         return playerId;

@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  *
- * @author abhirajd
+ * @author srivarun
  */
 public class GameEncoder {
     private static GameEncoder instance = null;
@@ -57,8 +57,24 @@ public class GameEncoder {
         }
         stringBuilder.append(",").append(gamePlayer.getPlayerId()).append(",").append(gamePlayer.getBid()).append(",").append(gamePlayer.getTricksWon()).append(",");
         stringBuilder.append(gamePlayer.getRoundScore()).append(",").append(gamePlayer.getTotalScore());
-        //System.out.println("playerCards and details protocol to client: "+stringBuilder.toString());
         return "cd#"+stringBuilder.toString();
+    }
+    
+    public String buildRemainingPlayerCards(Table table, GamePlayer gamePlayer){
+        
+        StringBuilder stringBuilder = new StringBuilder();
+        Iterator<Card> iter = gamePlayer.getPlayerCards().iterator();
+        Card c = iter.next();
+        stringBuilder.append(table.getTableId()).append(",").append(table.getRound()).append(",").append(c.getSuit()).append("@").append(c.getCardNumber());
+        while(iter.hasNext()){
+            
+            c = iter.next();
+            stringBuilder.append(":").append(c.getSuit()).append("@").append(c.getCardNumber());
+            
+        }
+        stringBuilder.append(",").append(gamePlayer.getPlayerId()).append(",").append(gamePlayer.getBid()).append(",").append(gamePlayer.getTricksWon()).append(",");
+        stringBuilder.append(gamePlayer.getRoundScore()).append(",").append(gamePlayer.getTotalScore());
+        return "cards#"+stringBuilder.toString();
     }
     
     public String buildCFS(Table table,ArrayList<Card> s){
@@ -82,9 +98,13 @@ public class GameEncoder {
         System.out.println(stringBuilder.toString());
         return "cfs#"+stringBuilder.toString();
     }
+    
+    
     public String buildActiveUser(){
         return "activeUser#currentUser";
     }
+    
+    
     
     public String buildPosition(Chair chair){
         
@@ -127,7 +147,7 @@ public class GameEncoder {
         stringBuilder.append(table.getTableId()).append("@");
         for(Chair chair : chairList){
             GamePlayer gamePlayer = chair.getGamePlayer();
-            stringBuilder.append(gamePlayer.getRoundScore()).append(":").append(gamePlayer.getTotalScore()).append(",");
+            stringBuilder.append(gamePlayer.getPlayerId()).append(":").append(gamePlayer.getRoundScore()).append(":").append(gamePlayer.getTotalScore()).append(",");
         }
         stringBuilder.deleteCharAt(stringBuilder.length()-1);
         
@@ -138,7 +158,7 @@ public class GameEncoder {
     public String buildCard(String tableId,Card card){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(tableId).append(",").append(card.getPlayerId()).append(",").append(card.getSuit()).append(",").append(card.getCardNumber());
-        return "trickcard#"+stringBuilder.toString();
+        return "trickCard#"+stringBuilder.toString();
     }
     
     public String buildBidAck(String userId,int bid){
@@ -149,52 +169,60 @@ public class GameEncoder {
     
     public String buildResult(Table table){
         StringBuilder result=new StringBuilder();
+        //String winner="";
         ArrayList<Chair> ch= table.getChairs();
-        double arr[]=new double[4];
-        HashMap<String,Double> ht = new HashMap<>();    //hashmap of ids and score
-        int i,j=0,rank=1,k=2;
+         double arr[]=new double[4];
+         HashMap<String,Double> ht = new HashMap<>();
+         int i;
         for(i=0;i<4;i++){
             arr[i]=ch.get(i).getGamePlayer().getTotalScore();
             ht.put(ch.get(i).getGamePlayer().getPlayerId(),arr[i]);
         }
         
         double newArray[]= Arrays.copyOfRange(arr,0,arr.length);
-        double totArray[]=new double[newArray.length];
-        Arrays.sort(newArray);
-        for(i=newArray.length-1;i>=0;i--){
-            totArray[j]=newArray[i];
-            j++;
-        }
-        List<Map.Entry<String, Double> > list = new LinkedList< >(ht.entrySet());
-        Collections.sort(list, (Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) -> (o1.getValue()).compareTo(o2.getValue()));
-        HashMap<String, Double> temp = new LinkedHashMap<>();
-        for (Map.Entry<String, Double> aa : list) {
-            temp.put(aa.getKey(), aa.getValue());
-        }
+            double totArray[]=new double[newArray.length];
+            Arrays.sort(newArray);
+            int j=0,rank=1;
+            for(i=newArray.length-1;i>=0;i--){
+                totArray[j]=newArray[i];
+                   j++;
+            }
+         List<Map.Entry<String, Double> > list = new LinkedList< >(ht.entrySet());
+          Collections.sort(list, (Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) -> (o1.getValue()).compareTo(o2.getValue()));
+
+          HashMap<String, Double> temp = new LinkedHashMap<>();
+          for (Map.Entry<String, Double> aa : list) {
+              temp.put(aa.getKey(), aa.getValue());
+          }
         Map<String, Double> hm1 = temp;
-        int ranks[] = new int[totArray.length];             
-        ranks[0]=rank;
-        for(i = 1; i<totArray.length; i++){
-            if(totArray[i] != totArray[i-1]){
-                rank ++;
+            int ranks[] = new int[totArray.length];             
+            ranks[0]=rank;
+            int k=2;
+            for(i = 1; i<totArray.length; i++){
+                if(totArray[i] != totArray[i-1]){
+                rank=k;
                 ranks[i]=k;
                 k++;
+                
             }
-            else{
-                ranks[i]=rank;  
-                k++;
-                rank++;
+                else{
+                   ranks[i]=rank;  
+                   k++;
+//                   rank++;
+                }
+        }
+           
+            result.append(table.getTableId());
+            i=ranks.length-1;
+            for (Map.Entry<String, Double> en : hm1.entrySet()) {
+                result.append(",").append(en.getKey()).append(":").append(ranks[i--]);
             }
-        }
+            return "result#"+result;
 
-        result.append(table.getTableId());
-        i=ranks.length-1;
-        for (Map.Entry<String, Double> en : hm1.entrySet()) {
-            result.append(",").append(en.getKey()).append(":").append(ranks[i--]);
-        }
-        
-        return "result#"+result;
-
+    }
+    
+    public String buildExitString(){
+        return "exit#exit";
     }
     
 }

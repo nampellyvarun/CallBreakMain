@@ -14,9 +14,10 @@ import com.project.callbreak.server.impl.AppContext;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 /**
  *
- * @author abhirajd
+ * @author srivarun
  */
 public class CardsDistribution {
     
@@ -84,7 +85,21 @@ public class CardsDistribution {
         //Shuffling the arrays using Collections
         Collections.shuffle(allSpadeCards);
         Collections.shuffle(nonSpadeNumberCards);
-       
+        
+        
+        System.out.println("allSpadeCards before distribution: "+allSpadeCards);
+
+        //Assigning a spade card to each player
+        Card c = cardsList.get(allSpadeCards.remove(0));
+        player1List.add(c);
+        c = cardsList.get(allSpadeCards.remove(0));
+        player2List.add(c);
+        c = cardsList.get(allSpadeCards.remove(0));
+        player3List.add(c);
+        c = cardsList.get(allSpadeCards.remove(0));
+        player4List.add(c);
+        
+
         ArrayList<Integer> temp = new ArrayList<>();
         
         temp.addAll(allSpadeCards);
@@ -98,50 +113,29 @@ public class CardsDistribution {
         }
         
         Collections.shuffle(faceCards);
-        
-        
 
-        //Assigning a spade card to each player
-        Card c = cardsList.get(allSpadeCards.remove(0));
-        
-        player1List.add(c);
-        c = cardsList.get(allSpadeCards.remove(0));
-        
-        player2List.add(c);
-        c = cardsList.get(allSpadeCards.remove(0));
-        
-        player3List.add(c);
-        c = cardsList.get(allSpadeCards.remove(0));
-        
-        player4List.add(c);
-       
-        
-        
-        //Assigning a face card to each player if player doesn't have a face card
+//        Assigning a face card to each player if player doesn't have a face card
         int playerCardNumber =player1List.get(0).getCardNumber();
         if(playerCardNumber != 11 || playerCardNumber !=12 || playerCardNumber !=13 || playerCardNumber !=14){
             c = cardsList.get(faceCards.remove(0));
-            
             player1List.add(c);
         }
         playerCardNumber=player2List.get(0).getCardNumber();
         if(playerCardNumber != 11 || playerCardNumber !=12 || playerCardNumber !=13 || playerCardNumber !=14){
             c = cardsList.get(faceCards.remove(0));
-            
             player2List.add(c);
         }
         playerCardNumber=player3List.get(0).getCardNumber();
         if(playerCardNumber != 11 || playerCardNumber !=12 || playerCardNumber !=13 || playerCardNumber !=14){
             c = cardsList.get(faceCards.remove(0));
-            
             player3List.add(c);
         }
         playerCardNumber=player4List.get(0).getCardNumber();
         if(playerCardNumber != 11 || playerCardNumber !=12 || playerCardNumber !=13 || playerCardNumber !=14){
             c = cardsList.get(faceCards.remove(0));
-            
             player4List.add(c);
         }
+        
         
         ArrayList<Integer> remainingCards = new ArrayList<>();
 
@@ -153,45 +147,37 @@ public class CardsDistribution {
         //Shuffling the remainingCardsList using Collections        
         Collections.shuffle(remainingCards);
 
-        //Assigning player 1 with a total of 13 random cards        
         while(!remainingCards.isEmpty()){
             if(player1List.size()!=13){
                 c = cardsList.get(remainingCards.remove(0));
-                
                 player1List.add(c);
             }
-             if(player2List.size()!=13){
+            if(player2List.size()!=13){
                 c = cardsList.get(remainingCards.remove(0));
-                
                 player2List.add(c);
             }
-              if(player3List.size()!=13){
+            if(player3List.size()!=13){
                 c = cardsList.get(remainingCards.remove(0));
-                
                 player3List.add(c);
             }
-               if(player4List.size()!=13){
+            if(player4List.size()!=13){
                 c = cardsList.get(remainingCards.remove(0));
-                
                 player4List.add(c);
             }
+            
         }
-        
         
         Collections.sort(player1List);
         Collections.sort(player2List);
         Collections.sort(player3List);
         Collections.sort(player4List);
         
-        
         ccl.setPlayer1List(player1List);
         ccl.setPlayer2List(player2List);
         ccl.setPlayer3List(player3List);
         ccl.setPlayer4List(player4List);
         
-       
-        return ccl;
-        
+        return ccl;    
     }
     
     public void playerCardsList(ArrayList<Card> cardsList){
@@ -214,7 +200,8 @@ public class CardsDistribution {
             i++;
             String string = GameEncoder.getInstance().buildPlayerCards(table,gamePlayer);
             System.out.println("PlayerCards: "+string);
-            SendMessage.getInstance().send(string,chair.getPlayer());  
-        }        
+            SendMessage.getInstance().send(string,chair.getPlayer());
+        }
     }
 }
+

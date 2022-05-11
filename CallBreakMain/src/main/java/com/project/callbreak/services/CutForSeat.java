@@ -12,7 +12,7 @@ import java.util.Iterator;
 
 /**
  *
- * @author abhirajd
+ * @author srivarun
  */
 public class CutForSeat {
 
@@ -20,9 +20,7 @@ public class CutForSeat {
     public ArrayList<Card> CutForSeatLogic(GenerateCards gCards) {
         
         ArrayList<Card> alCFSCards = new ArrayList<>();
-       // ArrayList<Character> alCFSCardsSuit = new ArrayList<>();
-        
-        //GenerateCards gCards = new GenerateCards();
+
         
         ArrayList<Integer> cnl = gCards.cardNumberList;
         
@@ -35,15 +33,16 @@ public class CutForSeat {
         //Generating 4 random cards and adding it to the HashSet
         for(int i=1;i<=4;i++){
             Card c = gCards.cardList.get(cnl.remove(0));
-//            c.setPlayerId(Integer.toString(i));
+            c.setPlayerId(Integer.toString(i));
             alCFSCards.add(c);
+            
         }
         
         
               
         Iterator<Card> itr1 = alCFSCards.iterator();
         Card cDistributor = itr1.next();
-        Card cDiscarder = cDistributor;
+         Card cDiscarder = cDistributor;
                 
         int highCard=cDistributor.getCardNumber();
         int lowCard=cDistributor.getCardNumber();
@@ -71,7 +70,7 @@ public class CutForSeat {
                   }
             }
         }
-        ArrayList<Card> alSeatArrangement = new ArrayList<>();
+         ArrayList<Card> alSeatArrangement = new ArrayList<>();
         alSeatArrangement.add(cDistributor);
         alSeatArrangement.add(cDiscarder);
         alCFSCards.remove(cDistributor);
@@ -103,15 +102,11 @@ public class CutForSeat {
  
         //Displaying the player who Distributes the cards and who Discards the cards
 
-        //System.out.println(alSeatArrangement);
         StringBuilder sb = new StringBuilder();
         sb.append(alSeatArrangement.get(0).toString());
         for(int i=1;i<4;i++){
             sb.append(";").append(alSeatArrangement.get(i));
         }
-        
-        
-//        System.out.println("Player "+cDistributor.getPlayerId()+" Distributes the cards and Player "+cDiscarder.getPlayerId()+" Discards the first Card");
         return alSeatArrangement;
     }
     

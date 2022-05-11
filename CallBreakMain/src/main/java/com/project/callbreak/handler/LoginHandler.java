@@ -22,19 +22,10 @@ import java.util.StringTokenizer;
 
 /**
  *
- * @author abhirajd
+ * @author srivarun
  */
 
 public class LoginHandler implements HandlerInterface{
-    private static LoginHandler instance = null;
-    public static LoginHandler getInstance() {
-        if (instance == null) {
-            synchronized (Object.class) {
-                instance = instance == null ? new LoginHandler() : instance;
-            }
-        }
-        return instance;
-    }
     
     public int userCount = 0;
     @Override
@@ -62,8 +53,6 @@ public class LoginHandler implements HandlerInterface{
                     System.out.println("");
                     
                     if(userID.equals(userid) && pwd.equals(pass)){
-//                        System.out.println("From server - Userid: "+userid+" password: "+pass);
-//                        System.out.println("From client - Userid: "+userID+" password: "+pwd);
                         x=1;
                         userCount++;
                         player.setStatus("100");
@@ -105,7 +94,7 @@ public class LoginHandler implements HandlerInterface{
                                 GamePlayer gamePlayer = new GamePlayer(player.getUserId());
                                 System.out.println(gamePlayer.getPlayerId());
                                 table1.addChair(gamePlayer);
-                                table.setStatus("registering");
+                                table1.setStatus("registering");
                                 AppContext.getInstance().addTable(tableId, table1);
                             }
                         }    
@@ -165,3 +154,4 @@ public class LoginHandler implements HandlerInterface{
    
 }
     
+

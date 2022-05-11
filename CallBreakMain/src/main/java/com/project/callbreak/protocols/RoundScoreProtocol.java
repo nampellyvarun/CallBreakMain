@@ -9,20 +9,18 @@ import com.project.callbreak.info.Chair;
 import com.project.callbreak.info.Table;
 import com.project.callbreak.messagesender.SendMessage;
 import com.project.callbreak.services.Score;
-import java.util.ArrayList;
 
 /**
  *
- * @author abhirajd
+ * @author srivarun
  */
 public class RoundScoreProtocol {
     
     public void roundScoreProtocol(Table table){
         Score score = new Score();
-        ArrayList<Chair> chairList = table.getChairs();
-        for(Chair chair : chairList ){
-            
-            score.ScoreCalculation(table,chair.getGamePlayer());
+        
+        for(Chair chair : table.getChairs() ){
+            score.ScoreCalculation(table,chair.getGamePlayer());    
         }
         
         String string = GameEncoder.getInstance().buildScoreCard(table);

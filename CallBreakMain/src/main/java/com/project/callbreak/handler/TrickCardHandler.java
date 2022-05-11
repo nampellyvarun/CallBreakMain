@@ -27,16 +27,23 @@ public class TrickCardHandler implements HandlerInterface{
         String tableId = player.getTableId();
         Card card = new Card(player.getUserId(),stringToknizer.nextToken().charAt(0),Integer.parseInt(stringToknizer.nextToken()));
         Table table = AppContext.getInstance().getTableByTableId(tableId);
-        table.addCard(card);
+        table.addCardToTrickList(card);
         GamePlayer gp = AppContext.getInstance().getGamePlayerByUserId(player.getUserId(), table);
+        System.out.println("player cards size before remove: "+gp.getPlayerCards().size());
         gp.getPlayerCards().remove(card);
+        System.out.println("player cards size: "+gp.getPlayerCards().size());
         System.out.println("after removing card : " +gp.getPlayerCards());
+        
         TrickProtocol trickProtocol = new TrickProtocol();
         trickProtocol.trickCardProtocol(player.getUserId(),table, card);
         
-        System.out.println("user active called");
-        ActiveUsersProtocol aup = new ActiveUsersProtocol();
-        aup.activeUsers(table,table.getActiveUser());
+        if(table.getTrickCount()!=2){ //13
+            ActiveUsersProtocol aup = new ActiveUsersProtocol();
+            aup.activeUsers(table,table.getActiveUser());
+        }
+        else{
+            table.setTrickCount(0);
+        }
         
         return null;
     }

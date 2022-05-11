@@ -8,7 +8,7 @@ import java.util.Random;
 
 /**
  *
- * @author abhirajd
+ * @author srivarun
  */
 
 public class Chair {

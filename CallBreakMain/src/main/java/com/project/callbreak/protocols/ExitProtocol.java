@@ -12,10 +12,9 @@ import com.project.callbreak.messagesender.SendMessage;
  *
  * @author srivarun
  */
-public class BidAckProtocol {
-    public void bidAckProtocol(String userId,Table table,int bid){
-        String string = GameEncoder.getInstance().buildBidAck(userId,bid);
-        SendMessage.getInstance().sendMessageToOtherPlayers(userId, string, table);
-    }   
-    
+public class ExitProtocol {
+    public void exit(Table table){
+        String string = GameEncoder.getInstance().buildExitString();
+        SendMessage.getInstance().sendMessageToTablePlayers(string, table);
+    }
 }

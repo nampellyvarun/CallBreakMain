@@ -12,8 +12,9 @@ import java.util.Timer;
  *
  * @author srivarun
  */
-public class ProtocolTimer extends Thread{
+public class PingTimer extends Thread{
     static Timer timer;
+    private int userCount;
     int counter=0;          
     @Override
             public void run() {
@@ -33,8 +34,5 @@ public class ProtocolTimer extends Thread{
                         ex.printStackTrace();
                     }    
                 }
-                GenerateCards gCards = new GenerateCards();
-                CDProtocol cdp = new  CDProtocol();
-                cdp.cdProtocol(gCards.cardList);
             }
 }

@@ -10,6 +10,7 @@ import com.project.callbreak.server.impl.AppContext;
 import io.netty.channel.ChannelHandlerContext;
 import java.util.StringTokenizer;
 
+
 /**
  *
  * @author hithendra
@@ -29,21 +30,24 @@ public class CBProtocolExecutor {
     public void executeProtocol(String buffer, ChannelHandlerContext ctx) {
         
         buffer = buffer.trim();
+        if(!buffer.startsWith("ping")){
+            System.out.println("protocol from client : "+buffer);  
+        }
         StringTokenizer st = new StringTokenizer(buffer,"#");
         String protocol = st.nextToken();
         String details = st.nextToken();
-        
+
         HandlerInterface handlerInterface = AppContext.getInstance().getMapHandler().get(protocol);
         
         
         String attachUserId = (String) ctx.attr(NIOConstants.ATTACHMENT).get();
         if (attachUserId == null){
             System.out.println("attachUserId is null");
+            
             if(buffer.startsWith("login#")){    
                 
                 StringTokenizer st1 = new StringTokenizer(details,",");
                 String s= st1.nextToken();     
-                //System.out.println("UserId after split: "+s);
                 ctx.attr(NIOConstants.ATTACHMENT).set(s);
                 attachUserId=s;
                 Player player = new Player();
@@ -61,7 +65,7 @@ public class CBProtocolExecutor {
                 
             }
         }
-        //System.out.println("attachUserId: "+(String) ctx.attr(NIOConstants.ATTACHMENT).get());
+        
         Player player = AppContext.getInstance().getPlayerByUserId(attachUserId);
         
         if(handlerInterface != null){
@@ -73,3 +77,4 @@ public class CBProtocolExecutor {
             
     }         
 }
+

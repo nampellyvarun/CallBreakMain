@@ -9,16 +9,15 @@ import com.project.callbreak.info.Table;
 
 /**
  *
- * @author abhirajd
+ * @author srivarun
  */
 public class Score {
     public void ScoreCalculation(Table table,GamePlayer gamePlayer){
 
         int bid = gamePlayer.getBid();
         int tricksWon = gamePlayer.getTricksWon();
-        float roundScore =0;
+        float roundScore = 0;
         float totalScore = gamePlayer.getTotalScore();
-        
         
         if(bid == tricksWon){
             roundScore = (float)bid;
@@ -29,8 +28,9 @@ public class Score {
         else{
             roundScore = tricksWon-bid;
         }
-        gamePlayer.addRoundScoreToScoreCard(table.getRound(), roundScore);
         
+//        gamePlayer.addRoundScoreToScoreCard(table.getRound()+1, roundScore);
+//        System.out.println(""+gamePlayer.getScoreCard());
         totalScore = totalScore+roundScore;
         gamePlayer.setRoundScore(roundScore);
         gamePlayer.setTotalScore(totalScore);

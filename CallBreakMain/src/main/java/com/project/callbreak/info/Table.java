@@ -25,15 +25,19 @@ public class Table {
     private int round ;
     private int trickCount;
     private String distributorId;
-//    private ArrayList<Card> seating;
-//
-//    public ArrayList<Card> getSeating() {
-//        return seating;
-//    }
-//
-//    public void setSeating(ArrayList<Card> seating) {
-//        this.seating = seating;
-//    }
+    
+    private int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+    
+    
+
 
     public String getDistributorId() {
         return distributorId;
@@ -45,7 +49,7 @@ public class Table {
 
     public String getActiveUser() {
         String activeUser = activeUsers.get(0);
-        Collections.rotate(activeUsers,3);
+        Collections.rotate(activeUsers,-1);
         return activeUser;
     }
 
@@ -80,9 +84,9 @@ public class Table {
         return trickList;
     }
 
-    public void addCard(Card card) {
+    public void addCardToTrickList(Card card) {
         if (trickList.size()==4){
-            trickList=null;
+            trickList.clear();
         }
         trickList.add(card);
     }

@@ -9,13 +9,12 @@ import com.project.callbreak.nio.HandlerInterface;
 
 /**
  *
- * @author abhirajd
+ * @author srivarun
  */
 public class PingHandler implements HandlerInterface{
 
     @Override
     public String handle(String string, Player player) {
-        System.out.println("Ping Handler Called");
         return null;
         
     }

@@ -8,7 +8,7 @@ import java.util.Objects;
 
 /**
  *
- * @author abhirajd
+ * @author srivarun
  */
 public class Card implements Comparable<Card>{
     private int cardNumber;
@@ -20,7 +20,6 @@ public class Card implements Comparable<Card>{
     public Card(int cardNumber, char suit) {
         this.cardNumber = cardNumber;
         this.suit = suit;
-       
     }
     public Card(String playerId, char suit ,int cardNumber) {
         this.playerId = playerId;
@@ -55,10 +54,10 @@ public class Card implements Comparable<Card>{
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 97 * hash + this.cardNumber;
-        hash = 97 * hash + this.suit;
-        hash = 97 * hash + Objects.hashCode(this.playerId);
+        int hash = 7;
+        hash = 67 * hash + this.cardNumber;
+        hash = 67 * hash + this.suit;
+        hash = 67 * hash + Objects.hashCode(this.playerId);
         return hash;
     }
 
@@ -83,7 +82,9 @@ public class Card implements Comparable<Card>{
         return Objects.equals(this.playerId, other.playerId);
     }
 
+    
 
+    
 
     @Override
     public String toString() {
@@ -111,3 +112,4 @@ public class Card implements Comparable<Card>{
     }
 
 }
+

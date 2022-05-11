@@ -27,7 +27,6 @@ public class CBNioHandler extends AbstractNIOHandler {
 
     @Override
     protected void unmergeProtocols(String buffer, ChannelHandlerContext ctx) {
-        System.out.println("Protocol from client "+buffer);
         StringTokenizer recievedProtocols = new StringTokenizer(buffer, "\n");
         while (recievedProtocols.hasMoreElements()) {
             CBProtocolExecutor.getInstance().executeProtocol(recievedProtocols.nextToken(), ctx);

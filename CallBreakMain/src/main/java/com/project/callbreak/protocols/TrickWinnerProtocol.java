@@ -34,9 +34,8 @@ public class TrickWinnerProtocol
         }
         Collections.rotate(activeUsersList, 4-i);
         table.setActiveUsers(activeUsersList);
-        
-//         ActiveUsersProtocol aup = new ActiveUsersProtocol();
-//         aup.activeUsers(table,table.getActiveUser());
-        
+        System.out.println(table.getActiveUsersList());
+
+     
     }
 }

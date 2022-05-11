@@ -10,12 +10,12 @@ import java.util.ArrayList;
 
 /**
  *
- * @author abhirajd
+ * @author srivarun
  */
 public class CDProtocol {
 
+    
     public void cdProtocol(ArrayList<Card> cardsList){
-
         CardsDistribution cardDistribution = new CardsDistribution();
         cardDistribution.playerCardsList(cardsList);
     }

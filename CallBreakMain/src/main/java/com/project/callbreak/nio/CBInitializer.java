@@ -14,23 +14,23 @@ import io.netty.util.HashedWheelTimerCust;
 
 /**
  *
- * @author Yellaiah D
+ * @author  
  */
 public class CBInitializer extends ChannelInitializer<SocketChannel> {
-    
+
     private final HashedWheelTimerCust timer;
 
     public CBInitializer(HashedWheelTimerCust timer) {
         this.timer = timer;
 
-}
+    }
 
     @Override
     public void initChannel(SocketChannel ch) throws Exception {
 
-    ChannelPipeline pipeLine = ch.pipeline();
-    pipeLine.addLast("timeoutS", new ReadTimeoutHandlerExt(timer, 30));
-    pipeLine.addLast("handler", new CBNioHandler());
-    
-        }
+        ChannelPipeline pipeLine = ch.pipeline();
+        pipeLine.addLast("timeoutS", new ReadTimeoutHandlerExt(timer, 30));
+        pipeLine.addLast("handler", new CBNioHandler());
+
     }
+}

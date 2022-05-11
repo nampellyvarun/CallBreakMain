@@ -13,11 +13,10 @@ import com.project.callbreak.protocols.BidAckProtocol;
 import com.project.callbreak.server.impl.AppContext;
 /**
  *
- * @author abhirajd
+ * @author srivarun
  */
 public class BidHandler implements HandlerInterface{
 
-    static int userCount;
     @Override
     public String handle(String string, Player player) {
         String userId = player.getUserId();
@@ -31,16 +30,13 @@ public class BidHandler implements HandlerInterface{
                 bid = chair.getGamePlayer().getBid();
             }
         }
-        userCount++;
+        table.setCount(table.getCount()+1);
         BidAckProtocol bap = new BidAckProtocol();
         bap.bidAckProtocol(userId,table, bid);
-        //System.out.println(table.toString());
         System.out.println("Bid handler called");
-        System.out.println("Active users List: " +table.getActiveUsersList());
-        if(userCount==4){
-             ActiveUsersProtocol aup = new ActiveUsersProtocol();
-             aup.activeUsers(table,table.getActiveUser());
-             System.out.println("User count 4");
+        if(table.getCount()%4==0){
+            ActiveUsersProtocol aup = new ActiveUsersProtocol();
+            aup.activeUsers(table,table.getActiveUser());
         }
         return null;
     }
